@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* sample color variables */
+    --spider-red: #C30F45;
+    --death-purple: #231123;
+    --red-eye: #f01f1f;
+}
+
+/* TEMPLATE */
+/* Typography */
+/* heading fonts */
+h1, h2, h3 {
+    font-family: retros, sans-serif; /* sample font */
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* body fonts */
+body, h4, input, label, option, select, button {
+    font-family: inclusive-sans, sans-serif; /* sample font */
+    font-style: normal;
+    font-weight: 300;
+}
+
+/* Navigation */
+nav, .logo-title, .nav-links {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+nav {
+    justify-content: space-between;
+    padding: 10px;
+    background: var(--death-purple);
+    color: var(--spider-red);
+}
+
+nav a {
+    color: var(--red-eye);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+#logo {
+    width: 100px;
+}
+
+/* footer */
+footer, .footer-links {
+    display: flex;
+}
+
+footer {
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background: var(--death-purple);
+    color: var(--red-eye);
+    min-height: 100px;
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--red-eye);
+}
+
+.footer-links {
+    flex-direction: column;
+    text-align: end;
+}
