@@ -11,4 +11,5 @@ class EmployeeController extends Controller
     public function viewTemplate() {
         return view('template');
     }
+    
 }

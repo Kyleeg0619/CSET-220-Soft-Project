@@ -102,3 +102,20 @@ footer {
     from {max-height: 0;}
     to {max-height: 1000px;}
 }
+
+.home_section{
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    flex-direction:row;
+    border-top:lightgrey solid 2px;
+    border-bottom:lightgrey solid 2px;
+}
+.home_section_half{
+    display:flex;
+    align-items:center;
+    text-align:center;
+    width:50%;
+    justify-content:center;
+    padding:2%;
+}
