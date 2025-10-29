@@ -119,3 +119,29 @@ footer {
     justify-content:center;
     padding:2%;
 }
+.review_section{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    flex-direction:row;
+    padding:3%;
+    border-top:lightgrey solid 2px;
+    border-bottom:lightgrey solid 2px;
+}
+.review{
+    text-align:center;
+    align-items:center;
+    color:white;
+    background-size:cover;
+    height:400px;
+    width:300px;
+    border:white solid 2px;
+}
+.review_comment{
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    height:300px;
+    border-bottom:white solid 2px;
+    margin-top:5%;
+}
