@@ -118,6 +118,7 @@ footer {
     width:50%;
     justify-content:center;
     padding:2%;
+    background-size:cover;
 }
 .review_section{
     display:flex;
@@ -127,6 +128,7 @@ footer {
     padding:3%;
     border-top:lightgrey solid 2px;
     border-bottom:lightgrey solid 2px;
+    background-size:cover;
 }
 .review{
     text-align:center;

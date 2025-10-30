@@ -31,7 +31,7 @@
     <main>
     <h3 style="text-align:center">Make the Intelligent Decision. Use our Smart Human Resources Services!</h3>
     <div class="home_section">
-        <div class="home_section_half">
+        <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}})">
             <img src="{{asset('images/big_brain.jpg')}}" width=400px alt="Transcendant Levels of Intelligence">
         </div>
         <div class="home_section_half">
@@ -41,11 +41,11 @@
     <h3 style="text-align:center">Easy Company Management</h3>
     <div class="home_section">
     <div class="home_section_half"><p>Our website's intuitive home management system allows for simple management of your employees! View the statistics of your company's employees with the greatest of ease! Update salaries and roles in no time! Approve or decline requests of leave in an instant!</p></div>
-    <div class="home_section_half"><img src="{{asset('images/business_man_on_computer.jpg')}}" height=300px width=250px alt="A Business Man on a Computer"></div>
+    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_2.png')}})"><img src="{{asset('images/business_man_on_computer.jpg')}}" height=300px width=250px alt="A Business Man on a Computer"></div>
     </div>
     <h3 style="text-align:center">Employee Empowerment</h3>
     <div class="home_section">
-    <div class="home_section_half">
+    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}})">
     <img src="{{asset('images/employees.jpg')}}" width=300px height=200px>
     </div>
     <div class="home_section_half">
@@ -63,7 +63,7 @@
     Victor Veloci<br>CEO of Raptordyne
     </div>
     <div class="review" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/nute_gunray_profile.png')}})">
-    <div class="review_comment"><p>"Smart-HR is a lifesaver! With it, I can find exactly how to underpay my employees, providing me with more time to guide my droids and plot revenge against the Jedi and Senator Amidala! Thank you, Smart-HR, you are truly the a manager's best friend!"</p></div>
+    <div class="review_comment"><p>"Smart-HR is a lifesaver! With it, I can find exactly how to underpay my employees, providing me with more time to guide my droids and plot revenge against the Jedi and Senator Amidala! Thank you, Smart-HR, you are truly a manager's best friend!"</p></div>
     Nute Gunray<br>Viceroy of the Trade Federation
     </div>
     </div>  
