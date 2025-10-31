@@ -31,7 +31,7 @@
     <main>
     <h3 style="text-align:center">Make the Intelligent Decision. Use our Smart Human Resources Services!</h3>
     <div class="home_section">
-        <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}})">
+        <div class="home_section_half">
             <img src="{{asset('images/big_brain.jpg')}}" width=400px alt="Transcendant Levels of Intelligence">
         </div>
         <div class="home_section_half">
