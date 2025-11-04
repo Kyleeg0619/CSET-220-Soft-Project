@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attendance`
 --
+DROP DATABASE IF EXISTS smart_hr;
 
 CREATE TABLE `attendance` (
   `attendanceID` int(11) NOT NULL,
