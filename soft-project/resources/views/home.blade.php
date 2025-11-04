@@ -34,7 +34,7 @@
         </div>
         <div class="home_section_half">
             <p>Our Smart HR System provides a simple, yet effective method for managing companies! Add, edit, and fire employees with ease! Approve requests for time off, check your company's employee-related statistics, and raise your employees' wages, all with a few simple clicks. Allow your employees to clock in and out in but a moment with our intuitive design.</p>
-            <a href="/Login" class="approve">Login</a>
+            <a href="/login" class="approve">Login</a>
         </div>
     </div>
     <div class="home_section">
