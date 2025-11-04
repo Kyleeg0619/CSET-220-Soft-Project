@@ -195,19 +195,18 @@ footer {
 .home_section{
     display:flex;
     justify-content:center;
+    align-items: center;
     text-align:center;
     flex-direction:row;
-    border-top:lightgrey solid 2px;
-    border-bottom:lightgrey solid 2px;
 }
 .home_section_half{
-    display:flex;
-    align-items:center;
+    align-content:center;
     text-align:center;
     width:50%;
     justify-content:center;
     padding:2%;
     background-size:cover;
+    min-height: 300px;
 }
 .review_section{
     display:flex;
@@ -215,8 +214,6 @@ footer {
     align-items:center;
     flex-direction:row;
     padding:3%;
-    border-top:lightgrey solid 2px;
-    border-bottom:lightgrey solid 2px;
     background-size:cover;
 }
 .review{
@@ -226,7 +223,6 @@ footer {
     background-size:cover;
     height:400px;
     width:300px;
-    border:black solid 2px;
 }
 .review_comment{
     text-align:center;
@@ -235,7 +231,13 @@ footer {
     height:300px;
     border-bottom:white solid 2px;
     margin-top:5%;
-  
+}
+
+.center_comment {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
 /* Admin Dashboard */
 .admin-ui {
     display: grid;
