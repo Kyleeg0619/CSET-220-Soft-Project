@@ -11,5 +11,13 @@ class EmployeeController extends Controller
     public function viewTemplate() {
         return view('template');
     }
-    
+
+    // sample until merged
+    public function viewDashboard() {
+        return view('template');
+    }
+
+    public function viewAbout() {
+        return view('about');
+    }
 }
