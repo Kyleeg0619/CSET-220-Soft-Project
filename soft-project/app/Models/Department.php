@@ -14,12 +14,4 @@ class Department extends Model
         'departmentName',
         'companyID'
     ];
-
-    public function company() {
-        return $this->belongsTo(Company::class,'companyID');
-    }
-
-    public function user() {
-        return $this->hasMany(CompanyUsers::class,'departmentID');
-    }
 }

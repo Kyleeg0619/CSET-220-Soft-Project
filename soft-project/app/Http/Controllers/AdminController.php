@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Models\CompanyUsers;
+use App\Models\Department;
+use App\Models\Designation;
+use App\Models\Employee;
 use App\Models\Leaverequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,31 +17,39 @@ use Illuminate\Support\Facades\Redirect;
 class AdminController extends Controller
 {
     public function viewAdminDashboard() {
-        $employees = DB::select("SELECT cu.userID, cu.firstName, cu.lastName, l.reason, l.requestDate, l.leaveStart, l.leaveEnd, l.approvalStatus, l.requestID  FROM leaverequests l LEFT JOIN company_users cu ON l.userID=cu.userID LEFT JOIN departments d ON cu.departmentID=d.departmentID WHERE d.companyID = ? AND l.approvalStatus = ?",[session('user')->department->company->companyID,'Pending']);
+        $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)->where('leaverequests.approvalStatus','Pending')
+        ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
+        ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')
+        ->get();
 
-        $totalEmployees = DB::select("SELECT COUNT(cu.userID) FROM company_users cu LEFT JOIN departments d ON cu.departmentID=d.departmentID LEFT JOIN companies c ON d.companyID=c.companyID WHERE d.companyID = ?",[session('user')->department->company->companyID]);
+        $totalEmployees = Employee::where('companyID',session('user')->companyID)->count();
 
-        return view('admin_dashboard',['employees'=>$employees]);
+        $today = date('y-m-d');
+        $presentEmployees = Attendance::where('employees.companyID',session('user')->companyID)->where('attendance.scheduleDate',$today)->leftJoin('employees','attendance.employeeID','=','employees.employeeID')->count();
+
+        $absentEmployees = $totalEmployees-$presentEmployees;
+
+        return view('admin_dashboard',['employees'=>$employees,'totalEmployees'=>$totalEmployees,'presentEmployees'=>$presentEmployees,'absentEmployees'=>$absentEmployees]);
     }
 
     public function approveRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Approved']);
 
-        $employees = DB::select("SELECT cu.userID, cu.firstName, cu.lastName, l.reason, l.requestDate, l.leaveStart, l.leaveEnd, l.approvalStatus, l.requestID  FROM leaverequests l LEFT JOIN company_users cu ON l.userID=cu.userID LEFT JOIN departments d ON cu.departmentID=d.departmentID WHERE d.companyID = ? AND l.approvalStatus = ?",[session('user')->department->company->companyID,'Pending']);
-
-        return view('admin_dashboard',['employees'=>$employees]);
+        return $this->viewAdminDashboard();
     }
     
     public function denyRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Denied']);
 
-        $employees = DB::select("SELECT cu.userID, cu.firstName, cu.lastName, l.reason, l.requestDate, l.leaveStart, l.leaveEnd, l.approvalStatus, l.requestID  FROM leaverequests l LEFT JOIN company_users cu ON l.userID=cu.userID LEFT JOIN departments d ON cu.departmentID=d.departmentID WHERE d.companyID = ? AND l.approvalStatus = ?",[session('user')->department->company->companyID,'Pending']);
-
-        return view('admin_dashboard',['employees'=>$employees]);
+        return $this->viewAdminDashboard();
     }
 
     public function viewCreateEmployee() {
-        return view('create_employee');
+        $departments = Department::where('companyID',session('user')->companyID)->get();
+
+        $designations = Designation::select('*')->get();
+
+        return view('create_employee',['departments'=>$departments,'designations'=>$designations]);
     }
 
     public function createEmployee(Request $request) {
@@ -47,10 +59,14 @@ class AdminController extends Controller
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
             'departmentID'=>$request->departmentID,
-            'designation'=>$request->designation,
+            'designationID'=>$request->designationID,
+            'companyID'=>session('user')->companyID,
             'salary'=>$request->salary
         ];
-        CompanyUsers::insert($employee);
-        return view('create_employee',['success'=>'Employee Profile Created Successfully!']);
+        Employee::insert($employee);
+        
+        $departments = Department::where('companyID',session('user')->companyID)->get();
+        $designations = Designation::select('*')->get();
+        return view('create_employee',['departments'=>$departments,'designations'=>$designations,'success'=>'Employee Profile Created Successfully!']);
     }
 }

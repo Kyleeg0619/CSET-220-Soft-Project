@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\CompanyUsers;
+use App\Models\Admin;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,16 +19,19 @@ class AuthController extends Controller
     }
 
     public function verifyLogin(Request $request) {
-        $user = CompanyUsers::with(['department.company'])->where('email',$request->email)->first();
+        if ($request->role == 'admin') {
+            $user = Admin::where('email',$request->email)->first();
+        } else {
+            $user = Employee::where('email',$request->email)->first();
+        }
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return Redirect::route('login')->with('warning','Invalid Credentials');
         }
 
-
         if (Hash::check($request->password, $user->password)) {
             session(['user'=>$user]);
-            if ($user->userRole == 'admin') {
+            if ($request->role == 'admin') {
                 return Redirect::route('admin/dashboard');
             } else {
                 // return Redirect::route('employee/dashboard');

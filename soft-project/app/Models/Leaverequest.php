@@ -9,10 +9,10 @@ class Leaverequest extends Model
     protected $table = 'leaverequests';
     public $timestamps = false;
 
-    protected $primaryKey = 'RequestID';
+    protected $primaryKey = 'requestID';
 
     protected $fillable = [
-        'userID',
+        'employeeID',
         'reason',
         'leaveStart',
         'leaveEnd',
