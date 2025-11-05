@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://use.typekit.net/amw7ext.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -26,48 +26,30 @@
         <a href="/about">About</a>
     </div>
 
-    <main>
-    <h3 style="text-align:center;margin-top:25px;">Make the Intelligent Decision. Use our Smart Human Resources Services!</h3>
-    <div class="home_section">
-        <div class="home_section_half">
-            <img src="{{asset('images/big_brain.jpg')}}" width=400px alt="Transcendant Levels of Intelligence">
-        </div>
-        <div class="home_section_half">
-            <p>Our Smart HR System provides a simple, yet effective method for managing companies! Add, edit, and fire employees with ease! Approve requests for time off, check your company's employee-related statistics, and raise your employees' wages, all with a few simple clicks. Allow your employees to clock in and out in but a moment with our intuitive design.</p>
-            <a href="/login" class="approve">Login</a>
-        </div>
+    <main class="employee_profile_main">
+    <h4>Employee Profile</h4>
+    <div class="profile_holder">
+    <div class="profile_pic_section"></div>
+    <div class="profile_stats_section">
+    <div>Name:</div>
+    <div>Designation: Department:</div>
+    <div class="profile_email_company_section"><div><i class="bi bi-envelope"></i> Email:</div><div><i class="bi bi-geo-alt"></i>Company: </div></div>
+    <div>Employee ID #: </div>
+    <div>
+    <div class="monthly_salary">
+    Monthly Salary:<br>$
+    </div>    
     </div>
-    <div class="home_section">
-    <div class="home_section_half">
-        <h3 style="text-align:center">Easy Company Management</h3>
-        <p>Our website's intuitive home management system allows for simple management of your employees! View the statistics of your company's employees with the greatest of ease! Update salaries and roles in no time! Approve or decline requests of leave in an instant!</p>
-    </div>
-    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_2.png')}})"><img src="{{asset('images/business_man_on_computer.jpg')}}" height=300px width=250px alt="A Business Man on a Computer"></div>
-    </div>
-    <div class="home_section">
-    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}})">
-    <img src="{{asset('images/employees.jpg')}}" width=300px height=200px>
-    </div>
-    <div class="home_section_half">
-    <h3 style="text-align:center">Employee Empowerment</h3>
-    <p>With our simple system for employees, they will be able to spend less time logging and more time working! Clock in and out in no time! Check out your salary and locate other basic details easily!</p>
+    <div class="profile-holder">
+    <div style="width:50%"><h4>Personal Details:</h4></div>
+    <form action="employee_profile" method=POST>
+    <div style="width:50%, align-items:right"><button class="edit_button" type="submit"><i class="bi bi-pencil-square"></i> Edit</button></div>
+    <div class="justify-content:space-around">
+    First Name: <input class="name_changer" name="first_name" type="text" value="" style="margin-right: 35%">
+    Last Name: <input class="name_changer" name="last_name" type="text" value="">
+    </form>
     </div>
     </div>
-    <h3 style="text-align:center;margin-top:25px;">Our Satisfied Customers!</h3>
-    <div class="review_section">
-    <div class="review" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/saxton_hale_profile.png')}})">
-    <div class="review_comment"><p>"Smart-HR's management system's great, mate! Thanks to it, I can always appropriately assign my workers, giving me more time for what I really enjoy: punching endangered animals into extinction!"</p></div>
-    Saxton Hale<br>CEO of Mann Co
-    </div>
-    <div class="review center_comment" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/victor_veloci_profile.png')}});">
-    <div class="review_comment"><p>"Smart-HR is the perfect system for my large-scale business. Thanks to it, I can direct my employees in my plans to create a Second Mesozoic Era and capture those PERFECT DINOSA... uhhh, I mean, release my highly healthy bio-engineered chicken feed and donate money to orphanages!"</p></div>
-    Victor Veloci<br>CEO of Raptordyne
-    </div>
-    <div class="review" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/nute_gunray_profile.png')}})">
-    <div class="review_comment"><p>"Smart-HR is a lifesaver! With it, I can find exactly how to underpay my employees, providing me with more time to guide my droids and plot revenge against the Jedi and Senator Amidala! Thank you, Smart-HR, you are truly a manager's best friend!"</p></div>
-    Nute Gunray<br>Viceroy of the Trade Federation
-    </div>
-    </div>  
     </main>
 
     <footer>

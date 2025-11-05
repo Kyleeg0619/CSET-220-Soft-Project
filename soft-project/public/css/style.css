@@ -319,3 +319,43 @@ footer {
 .leave-block th {
     text-align: center;
 }
+/* Employee Profile */
+.employee_profile_main{
+    background-color:lightgrey;
+}
+.profile_holder{
+    display:flex;
+    flex-direction:row;
+    background-color:white;
+    border-radius:10px;
+    margin-bottom:100px;
+}
+.profile_pic_section{
+    width:15%;
+}
+.profile_stats_section{
+    width:85%;
+}
+.profile_email_company_section{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+}
+.monthy_salary{
+    background-color:lightblue;
+    border-radius:10px;
+    text-align:center;
+    width:300px;
+    height:200px;
+    color:lightgray;
+    padding:10px;
+}
+.name_changer{
+    border-radius:10px;
+    width:500px;
+}
+.edit_button{
+    border:none;
+    background-color:none;
+    cursor:pointer;
+}
