@@ -26,3 +26,6 @@ Route::post('/admin/employeeCreated',[AdminController::class,'createEmployee']);
 
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome']);
+
+//Employee Links
+Route::get('/employee_profile',[EmployeeController::class,'viewEmployeeProfile']);

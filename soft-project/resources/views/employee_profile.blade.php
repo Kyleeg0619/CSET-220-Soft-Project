@@ -28,27 +28,23 @@
 
     <main class="employee_profile_main">
     <h4>Employee Profile</h4>
-    <div class="profile_holder">
+    <div class="profile_holder" style="margin-bottom:30px;">
     <div class="profile_pic_section"></div>
     <div class="profile_stats_section">
-    <div>Name:</div>
-    <div>Designation: Department:</div>
-    <div class="profile_email_company_section"><div><i class="bi bi-envelope"></i> Email:</div><div><i class="bi bi-geo-alt"></i>Company: </div></div>
+    <div style="width:100%">Name:</div>
+    <div class="profile_container">Designation:</div><div class="profile_container">Department:</div>
+    <div class="profile_container"><i class="bi bi-envelope"></i> Email:</div><div class="profile_container"><i class="bi bi-geo-alt"></i>Company:</div>
     <div>Employee ID #: </div>
-    <div>
+    </div>
     <div class="monthly_salary">
     Monthly Salary:<br>$
     </div>    
     </div>
-    <div class="profile-holder">
-    <div style="width:50%"><h4>Personal Details:</h4></div>
-    <form action="employee_profile" method=POST>
-    <div style="width:50%, align-items:right"><button class="edit_button" type="submit"><i class="bi bi-pencil-square"></i> Edit</button></div>
-    <div class="justify-content:space-around">
-    First Name: <input class="name_changer" name="first_name" type="text" value="" style="margin-right: 35%">
-    Last Name: <input class="name_changer" name="last_name" type="text" value="">
-    </form>
-    </div>
+    <div class="profile_holder">
+    <div class="profile_container"><h4>Personal Details:</h4></div>
+    <div class="profile_container" style="margin-bottom:10px"><button class="edit_button" type="submit"><i class="bi bi-pencil-square"></i> Edit</button></div>
+    <div class="profile_container">First Name: <input class="name_changer" name="first_name" type="text" value=""></div>
+    <div class="profile_container">Last Name: <input class="name_changer" name="last_name" type="text" value=""></div>
     </div>
     </main>
 
