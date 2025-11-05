@@ -12,8 +12,4 @@ class Company extends Model
         'companyID',
         'companyName'
     ];
-
-    public function department() {
-        return $this->hasMany(Department::class,'comapnyID');
-    }
 }

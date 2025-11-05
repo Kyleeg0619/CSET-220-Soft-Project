@@ -20,4 +20,8 @@ class EmployeeController extends Controller
     public function viewAbout() {
         return view('about');
     }
+
+    public function viewHome() {
+        return view('home');
+    }
 }

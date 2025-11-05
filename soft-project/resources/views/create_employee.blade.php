@@ -42,10 +42,16 @@
             <input type="text" name="password">
             <label for="departmentID">Department: </label>
             <select name="departmentID" id="">
-                <option value="3">3</option>
+                @foreach ($departments as $department)
+                    <option value="{{ $department->departmentID }}">{{ $department->departmentName }}</option>
+                @endforeach
             </select>
-            <label for="designation">Designation: </label>
-            <input type="text" name="designation">
+            <label for="designationID">Designation: </label>
+            <select name="designationID" id="">
+                @foreach ($designations as $designation)
+                    <option value="{{ $designation->designationID }}">{{ $designation->designationName }}</option>
+                @endforeach
+            </select>
             <label for="salary">Salary</label>
             <input type="number" name="salary">
             <button type="submit" class="form-submit">Create</button>

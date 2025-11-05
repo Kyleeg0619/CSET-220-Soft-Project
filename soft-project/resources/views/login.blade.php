@@ -33,6 +33,10 @@
             <h1>Login</h1>
             <p>Welcome Back</p>
             <hr>
+            <select name="role">
+                <option value="employee" selected>Employee</option>
+                <option value="admin">Admin</option>
+            </select>
             <label for="email">Email: </label>
             <input type="text" name="email">
             <label for="">Password: </label>
