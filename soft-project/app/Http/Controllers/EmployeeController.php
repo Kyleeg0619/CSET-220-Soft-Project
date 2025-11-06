@@ -25,6 +25,11 @@ class EmployeeController extends Controller
         return view('home');
     }
     public function viewEmployeeProfile(){
-        return view('employee_profile');
+        $employee=array("employeeid","designation","department","company");
+        $employee["employeeid"]=
+        $employee["designation"]=
+        $employee["department"]=
+        $employee["company"]=
+        return view('employee_profile',["employee_user"=>$employee]);
     }
 }
