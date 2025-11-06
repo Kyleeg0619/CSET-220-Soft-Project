@@ -319,3 +319,8 @@ footer {
 .leave-block th {
     text-align: center;
 }
+
+.leave-block th a {
+    color: var(--deep-navy);
+    text-decoration: none;
+}

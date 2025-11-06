@@ -16,6 +16,8 @@ Route::post('/verifyLogin',[AuthController::class,'verifyLogin']);
 
 // Admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard');
+Route::get('/admin/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
+Route::get('/admin/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
 Route::get('/admin/approveRequest/{requestID}',[AdminController::class,'approveRequest'])->name('approveRequest');
 Route::get('/admin/deniedRequest/{requestID}',[AdminController::class,'denyRequest'])->name('denyRequest');
 
@@ -24,5 +26,8 @@ Route::get('/admin/deniedRequest/{requestID}',[AdminController::class,'denyReque
 Route::get('/admin/createEmployee',[AdminController::class,'viewCreateEmployee']);
 Route::post('/admin/employeeCreated',[AdminController::class,'createEmployee']);
 
+Route::get('/admin/leaverequests',[AdminController::class,'viewLeaveRequests']);
+
+// Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome']);
