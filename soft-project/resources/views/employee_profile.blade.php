@@ -34,7 +34,7 @@
     <div style="width:100%">Name:{{session('user')->firstName}} {{session('user')->lastName}}</div>
     <div class="profile_container">Designation: {{$employee_user->designation}}</div><div class="profile_container">Department: {{$employee_user->department}}</div>
     <div class="profile_container"><i class="bi bi-envelope"></i> Email: {{session('user')->email}}</div><div class="profile_container"><i class="bi bi-geo-alt"></i>Company: {{$employee_user->company}}</div>
-    <div>Employee ID #: {{$employee_user->employeeid}}</div>
+    <div>Employee ID #: {{session('user')->employeeID}}</div>
     </div>
     <div class="monthly_salary">
     Monthly Salary:<br>${{session('user')->salary}}
@@ -43,7 +43,7 @@
     <div class="profile_holder">
     <div class="profile_container"><h4>Personal Details:</h4></div>
     <div class="profile_container" style="margin-bottom:10px"><button class="edit_button" type="submit" form="changeName"><i class="bi bi-pencil-square"></i> Edit</button></div>
-    <form id="changeName" action="/employee_profile" method=POST>
+    <form id="changeName" action="/api/employee_profile" method=POST>
         @csrf
     <div class="profile_container">First Name: <input class="name_changer" name="first_name" type="text" value="{{session('user')->firstName}}"></div>
     <div class="profile_container">Last Name: <input class="name_changer" name="last_name" type="text" value="{{session('user')->lastName}}"></div>

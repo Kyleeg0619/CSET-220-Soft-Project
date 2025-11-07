@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Admin;
+use App\Models\Employee;
+use App\Models\User;
 class EmployeeControllerAPI extends Controller
 {
     /**
@@ -22,9 +24,10 @@ class EmployeeControllerAPI extends Controller
     {
         //
     }
-    public function storeName(Request $request)
+    public function storeEmployeeName(Request $request)
     {
-        
+        Employee::where('employeeID',session('user')->employeeID)->update(['firstName'->$request->firstName,'lastName'->$request->lastName]);
+        redirect("/employee_profile");
     }
     /**
      * Display the specified resource.
