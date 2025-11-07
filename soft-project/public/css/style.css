@@ -335,6 +335,11 @@ footer {
     width:15%;
     height:150px;
 }
+.profile_picture{
+    height:100px;
+    width:100px;
+    border-radius:100px;
+}
 .profile_stats_section{
     width:85%;
     display:flex;
@@ -360,7 +365,8 @@ footer {
 }
 .edit_button{
     border:none;
-    background-color:none;
+    background:none;
+    outline:none;
     cursor:pointer;
     margin-left:590px
 }
