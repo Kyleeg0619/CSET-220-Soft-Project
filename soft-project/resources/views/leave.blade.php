@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://use.typekit.net/amw7ext.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        div nav {
+            background: none
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -36,7 +41,7 @@
             <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h2></a>
         </section>
         <section class="admin-content">
-            <table class="leave-block">
+            <table class="leave-block" style="position: relative">
                 <tr>
                     <td colspan="8">
                         <h1>Leave Requests</h1>
@@ -90,6 +95,14 @@
                     </tr>
                 @endforeach
             </table>
+            <div>
+                {{ $employees->links('pagination::bootstrap-5') }}
+            </div>
+            <form action="/searchLeave" method="POST" class="search-leave">
+                    @csrf
+                    <input type="text" name="search" placeholder="Name..." class="search-input">
+                    <button type="submit" class="search-submit">Search</button>
+            </form>
         </section>
     </main>
 

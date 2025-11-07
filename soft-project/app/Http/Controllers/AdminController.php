@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function viewAdminDashboard() {
         $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)->where('leaverequests.approvalStatus','Pending')
         ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
-        ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')
+        ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')->limit(10)
         ->get();
 
         $totalEmployees = Employee::where('companyID',session('user')->companyID)->count();
@@ -116,8 +116,25 @@ class AdminController extends Controller
             $query = $query->orderBy('leaverequests.submissionDate','desc');
         }
 
-        $employees = $query->get();
+        $employees = $query->paginate(10);
 
+        return view('leave',['employees'=>$employees]);
+    }
+
+    public function searchLeave(Request $request) {
+        $searchTerm = $request->input('search');
+        if ($searchTerm == null) {
+            return $this->viewLeaveRequests();
+        }
+        $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)
+            ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
+            ->select('leaverequests.*', 'employees.firstName', 'employees.lastName', 'employees.employeeID')
+            ->where(function($query) use ($searchTerm) {
+                $query->where('employees.firstName', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('employees.lastName', 'LIKE', "%{$searchTerm}%");
+            })
+
+            ->simplePaginate(10);
         return view('leave',['employees'=>$employees]);
     }
 }
