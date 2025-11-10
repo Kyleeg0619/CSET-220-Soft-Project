@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Template</title>
+    <title>Smart HR</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://use.typekit.net/amw7ext.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
+    {{-- Navigation --}}
     <nav>
         <div class="logo-title">
             <img id="logo" src="{{ asset('images/DKG-logo.png') }}" alt=":DKG logo">
@@ -18,6 +19,7 @@
             <img src="{{ asset('images/open-menu.png') }}" alt="" width="40px" id="menu-icon">
         </div>
     </nav>
+    {{-- Hamburger Menu --}}
     <div class="nav-links">
         <a href="/home">Home</a>
         <hr class="nav-spacer">
@@ -28,8 +30,13 @@
 
     <main>
 
+{{-- Page Content Goes Here --}}
+@yield('content')  
+
     </main>
 
+
+    {{-- Footer Links --}}
     <footer>
         <section class="social-contacts">
             <img src="{{ asset('images/DKG-logo.png') }}" alt="" width="200px">
@@ -60,7 +67,10 @@
         <a href="/about">About</a>
         </section>
     </footer>
-{{-- @vite('resources/js/app.js') --}}
+
+
+
+    {{-- Hamburger Menu Script --}}
 <script>
     function showMenu() {
     document.getElementById("menu-icon").addEventListener('click',function(){

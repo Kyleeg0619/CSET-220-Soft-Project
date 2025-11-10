@@ -68,9 +68,7 @@ CREATE TABLE `attendance` (
 );
 
 INSERT INTO attendance (employeeID, scheduleDate, clockIN, clockOut, totalHours) VALUES
-(1, '2025-11-01', '2025-11-01 09:00:00', '2025-11-01 17:00:00', 8.00),
-(2, '2025-11-01', '2025-11-01 08:45:00', '2025-11-01 17:15:00', 8.50),
-(3, '2025-11-01', '2025-11-01 09:30:00', '2025-11-01 18:00:00', 8.50);
+(1, '2025-11-01', '2025-11-01 09:00:00', '2025-11-01 17:00:00', 8.00);
 
 CREATE TABLE `admins` (
   `adminID` int(11) AUTO_INCREMENT PRIMARY KEY,

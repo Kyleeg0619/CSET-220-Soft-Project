@@ -160,7 +160,7 @@ footer {
     margin-top: 10px;
 }
 
-.register-form input, .register-form select {
+.register-form input, .search-input, .register-form select {
     border-radius: 30px;
     padding: 5px;
     border: 1px solid var(--deep-navy);
@@ -265,6 +265,7 @@ footer {
 
 .admin-content {
     padding: 25px;
+    position: relative;
 }
 
 .stats {
@@ -319,6 +320,7 @@ footer {
 .leave-block th {
     text-align: center;
 }
+
 /* Employee Profile */
 .employee_profile_main{
     background-color:lightgrey;
