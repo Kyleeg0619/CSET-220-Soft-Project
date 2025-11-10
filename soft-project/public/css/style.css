@@ -160,7 +160,7 @@ footer {
     margin-top: 10px;
 }
 
-.register-form input, .register-form select {
+.register-form input, .search-input, .register-form select {
     border-radius: 30px;
     padding: 5px;
     border: 1px solid var(--deep-navy);
@@ -265,6 +265,7 @@ footer {
 
 .admin-content {
     padding: 25px;
+    position: relative;
 }
 
 .stats {
@@ -318,4 +319,67 @@ footer {
 
 .leave-block th {
     text-align: center;
+}
+
+.leave-block th a {
+    color: var(--deep-navy);
+    text-decoration: none;
+}
+
+/* Admin Leave Requests */
+/* Pagination Styling */
+.pagination {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.page-item {
+    list-style: none;
+}
+
+.page-item .page-link {
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--deep-navy);
+    border: 1px solid var(--deep-navy);
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.page-item.active .page-link {
+    background-color: var(--deep-navy);
+    color: var(--periwinkle);
+    border-color: var(--deep-navy);
+}
+
+.page-item .page-link:hover:not(.disabled) {
+    background-color: var(--deep-navy);
+    color: var(--periwinkle);
+}
+
+.search-leave {
+    display: flex;
+    position: absolute;
+    top: 70px;
+    right: 70px;
+}
+
+.search-input {
+    border-radius: 30px;
+    padding: 5px;
+    border: 1px solid var(--deep-navy);
+    background: white;
+}
+
+.search-submit {
+    border-radius: 30px;
+    padding: 5px 15px;
+    margin: 0 5px;
+    border: 1px solid var(--deep-navy);
+    background: var(--deep-navy);
+    color: white;
+    cursor: pointer;
 }

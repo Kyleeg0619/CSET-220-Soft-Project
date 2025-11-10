@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function viewAdminDashboard() {
         $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)->where('leaverequests.approvalStatus','Pending')
         ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
-        ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')
+        ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')->limit(10)
         ->get();
 
         $totalEmployees = Employee::where('companyID',session('user')->companyID)->count();
@@ -32,16 +32,28 @@ class AdminController extends Controller
         return view('admin_dashboard',['employees'=>$employees,'totalEmployees'=>$totalEmployees,'presentEmployees'=>$presentEmployees,'absentEmployees'=>$absentEmployees]);
     }
 
-    public function approveRequest($id) {
+    public function quickApproveRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Approved']);
 
         return $this->viewAdminDashboard();
     }
     
-    public function denyRequest($id) {
+    public function quickDenyRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Denied']);
 
         return $this->viewAdminDashboard();
+    }
+
+    public function approveRequest($id) {
+        Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Approved']);
+
+        return $this->viewLeaveRequests();
+    }
+    
+    public function denyRequest($id) {
+        Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Denied']);
+
+        return $this->viewLeaveRequests();
     }
 
     public function viewCreateEmployee() {
@@ -68,5 +80,61 @@ class AdminController extends Controller
         $departments = Department::where('companyID',session('user')->companyID)->get();
         $designations = Designation::select('*')->get();
         return view('create_employee',['departments'=>$departments,'designations'=>$designations,'success'=>'Employee Profile Created Successfully!']);
+    }
+
+    public function viewLeaveRequests(?Request $request = null) {
+        if ($request === null) {
+            $request = request();
+        }
+        // allow only these sortable keys (map to real columns)
+        $allowedSorts = [
+            'employeeID' => 'employees.employeeID',
+            'name' => 'employees.lastName',
+            'reason' => 'leaverequests.reason',
+            'submissionDate' => 'leaverequests.submissionDate',
+            'leaveStart' => 'leaverequests.leaveStart',
+            'leaveEnd' => 'leaverequests.leaveEnd',
+            'status' => 'leaverequests.approvalStatus',
+        ];
+
+        $sortKey = $request->query('sort');
+        $direction = strtolower($request->query('direction', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+        $query = Leaverequest::where('leaverequests.companyID', session('user')->companyID)
+            ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
+            ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID');
+
+        if ($sortKey && array_key_exists($sortKey, $allowedSorts)) {
+            // special-case name to sort by lastName then firstName
+            if ($sortKey === 'name') {
+                $query = $query->orderBy('employees.lastName', $direction)->orderBy('employees.firstName', $direction);
+            } else {
+                $query = $query->orderBy($allowedSorts[$sortKey], $direction);
+            }
+        } else {
+            // default
+            $query = $query->orderBy('leaverequests.submissionDate','desc');
+        }
+
+        $employees = $query->paginate(10);
+
+        return view('leave',['employees'=>$employees]);
+    }
+
+    public function searchLeave(Request $request) {
+        $searchTerm = $request->input('search');
+        if ($searchTerm == null) {
+            return $this->viewLeaveRequests();
+        }
+        $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)
+            ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
+            ->select('leaverequests.*', 'employees.firstName', 'employees.lastName', 'employees.employeeID')
+            ->where(function($query) use ($searchTerm) {
+                $query->where('employees.firstName', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('employees.lastName', 'LIKE', "%{$searchTerm}%");
+            })
+
+            ->simplePaginate(10);
+        return view('leave',['employees'=>$employees]);
     }
 }
