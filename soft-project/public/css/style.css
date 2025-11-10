@@ -321,65 +321,54 @@ footer {
     text-align: center;
 }
 
-.leave-block th a {
-    color: var(--deep-navy);
-    text-decoration: none;
+/* Employee Profile */
+.employee_profile_main{
+    background-color:lightgrey;
 }
-
-/* Admin Leave Requests */
-/* Pagination Styling */
-.pagination {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
+.profile_holder{
+    display:flex;
+    flex-direction:row;
+    background-color:white;
+    border-radius:10px;
+    padding:5px;
+    flex-wrap:wrap;
 }
-
-.page-item {
-    list-style: none;
+.profile_pic_section{
+    width:15%;
+    height:150px;
 }
-
-.page-item .page-link {
-    display: inline-block;
-    padding: 8px 16px;
-    color: var(--deep-navy);
-    border: 1px solid var(--deep-navy);
-    border-radius: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+.profile_picture{
+    height:100px;
+    width:100px;
+    border-radius:100px;
 }
-
-.page-item.active .page-link {
-    background-color: var(--deep-navy);
-    color: var(--periwinkle);
-    border-color: var(--deep-navy);
+.profile_stats_section{
+    width:85%;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    margin-bottom:10px;
 }
-
-.page-item .page-link:hover:not(.disabled) {
-    background-color: var(--deep-navy);
-    color: var(--periwinkle);
+.profile_container{
+    width:50%;
 }
-
-.search-leave {
-    display: flex;
-    position: absolute;
-    top: 70px;
-    right: 70px;
+.monthly_salary{
+    background-color:lightblue;
+    border-radius:10px;
+    text-align:center;
+    width:200px;
+    height:75px;
+    color:white;
+    padding:10px;
 }
-
-.search-input {
-    border-radius: 30px;
-    padding: 5px;
-    border: 1px solid var(--deep-navy);
-    background: white;
+.name_changer{
+    border-radius:10px;
+    width:300px;
 }
-
-.search-submit {
-    border-radius: 30px;
-    padding: 5px 15px;
-    margin: 0 5px;
-    border: 1px solid var(--deep-navy);
-    background: var(--deep-navy);
-    color: white;
-    cursor: pointer;
+.edit_button{
+    border:none;
+    background:none;
+    outline:none;
+    cursor:pointer;
+    margin-left:590px
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -23,5 +26,12 @@ class EmployeeController extends Controller
 
     public function viewHome() {
         return view('home');
+    }
+    public function viewEmployeeProfile(){
+        $employee=array("designation","department","company");
+        $employee["designation"]=Designation::where('designationID',session('user')->designationID)->first();
+        $employee["department"]=Department::where('departmentID',session('user')->departmentID);
+        $employee["company"]=Company::where('companyID',session('user')->companyID);
+        return view('employee_profile',["employee_user"=>$employee]);
     }
 }

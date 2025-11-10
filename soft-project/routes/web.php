@@ -34,6 +34,8 @@ Route::match(['get', 'post'], '/searchLeave', [AdminController::class, 'searchLe
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome']);
 
+//Employee Links
+Route::get('/employee_profile',[EmployeeController::class,'viewEmployeeProfile'])->name('/employee_profile');
 // ***
 // ***
 // ***
