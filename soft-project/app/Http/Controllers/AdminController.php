@@ -13,19 +13,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    
     public function viewAdminDashboard() {
-        $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)->where('leaverequests.approvalStatus','Pending')
+        $admin = Auth::guard('admin')->user();
+
+        $employees = Leaverequest::where('leaverequests.companyID', $admin->companyID)->where('leaverequests.approvalStatus','Pending')
         ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
         ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')->limit(10)
         ->get();
 
-        $totalEmployees = Employee::where('companyID',session('user')->companyID)->count();
+        $totalEmployees = Employee::where('companyID',$admin->companyID)->count();
 
         $today = date('y-m-d');
-        $presentEmployees = Attendance::where('employees.companyID',session('user')->companyID)->where('attendance.scheduleDate',$today)->leftJoin('employees','attendance.employeeID','=','employees.employeeID')->count();
+        $presentEmployees = Attendance::where('employees.companyID',$admin->companyID)->where('attendance.scheduleDate',$today)->leftJoin('employees','attendance.employeeID','=','employees.employeeID')->count();
 
         $absentEmployees = $totalEmployees-$presentEmployees;
 
@@ -57,7 +61,8 @@ class AdminController extends Controller
     }
 
     public function viewCreateEmployee() {
-        $departments = Department::where('companyID',session('user')->companyID)->get();
+        $admin = Auth::guard('admin')->user();
+        $departments = Department::where('companyID',$admin->companyID)->get();
 
         $designations = Designation::select('*')->get();
 
@@ -65,6 +70,7 @@ class AdminController extends Controller
     }
 
     public function createEmployee(Request $request) {
+        $admin = Auth::guard('admin')->user();
         $employee = [
             'firstName'=>$request->firstName,
             'lastName'=>$request->lastName,
@@ -72,17 +78,18 @@ class AdminController extends Controller
             'password'=>Hash::make($request->password),
             'departmentID'=>$request->departmentID,
             'designationID'=>$request->designationID,
-            'companyID'=>session('user')->companyID,
+            'companyID'=>$admin->companyID,
             'salary'=>$request->salary
         ];
         Employee::insert($employee);
         
-        $departments = Department::where('companyID',session('user')->companyID)->get();
+        $departments = Department::where('companyID',$admin->companyID)->get();
         $designations = Designation::select('*')->get();
         return view('create_employee',['departments'=>$departments,'designations'=>$designations,'success'=>'Employee Profile Created Successfully!']);
     }
 
     public function viewLeaveRequests(?Request $request = null) {
+        $admin = Auth::guard('admin')->user();
         if ($request === null) {
             $request = request();
         }
@@ -100,7 +107,7 @@ class AdminController extends Controller
         $sortKey = $request->query('sort');
         $direction = strtolower($request->query('direction', 'desc')) === 'asc' ? 'asc' : 'desc';
 
-        $query = Leaverequest::where('leaverequests.companyID', session('user')->companyID)
+        $query = Leaverequest::where('leaverequests.companyID', $admin->companyID)
             ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
             ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID');
 
@@ -122,11 +129,12 @@ class AdminController extends Controller
     }
 
     public function searchLeave(Request $request) {
+        $admin = Auth::guard('admin')->user();
         $searchTerm = $request->input('search');
         if ($searchTerm == null) {
             return $this->viewLeaveRequests();
         }
-        $employees = Leaverequest::where('leaverequests.companyID', session('user')->companyID)
+        $employees = Leaverequest::where('leaverequests.companyID', $admin->companyID)
             ->leftJoin('employees', 'leaverequests.employeeID', '=', 'employees.employeeID')
             ->select('leaverequests.*', 'employees.firstName', 'employees.lastName', 'employees.employeeID')
             ->where(function($query) use ($searchTerm) {

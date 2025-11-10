@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
@@ -32,3 +33,12 @@ Route::match(['get', 'post'], '/searchLeave', [AdminController::class, 'searchLe
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome']);
+
+// ***
+// ***
+// ***
+
+// Employee Dashboard
+Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');
+Route::post('/clock-in', [AttendanceController::class,'clockIn'])->name('clock.in');
+Route::post('/clock-out', [AttendanceController::class,'clockOut'])->name('clock.out');
