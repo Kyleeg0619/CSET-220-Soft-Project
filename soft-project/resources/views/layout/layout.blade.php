@@ -21,11 +21,34 @@
     </nav>
     {{-- Hamburger Menu --}}
     <div class="nav-links">
+    @if (Auth::guard('admin')->user())
+        <a href="/admin/dashboard">Dashboard</a>
+        <hr class="nav-spacer">
+        {{-- <a href="/admin/employees">Employees</a> --}}
+        <hr class="nav-spacer">
+        <a href="/admin/leaverequests">Leave Requests</a>
+        <hr class="nav-spacer">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
+    @elseif (Auth::guard('employee')->user())
+        <a href="/attendance">Dashboard</a>
+        <hr class="nav-spacer">
+        <a href="/employee/profile">Profile</a>
+        <hr class="nav-spacer">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
+
+    @else
         <a href="/home">Home</a>
         <hr class="nav-spacer">
         <a href="/login">Login</a>
         <hr class="nav-spacer">
         <a href="/about">About</a>
+    @endif
     </div>
 
     <main>

@@ -14,6 +14,7 @@ Route::get('/template',[EmployeeController::class,'viewTemplate']);
 
 Route::get('/login',[AuthController::class,'viewLogin'])->name('login');
 Route::post('/verifyLogin',[AuthController::class,'verifyLogin']);
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
 // Admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard');
@@ -32,13 +33,15 @@ Route::get('/admin/leaverequests',[AdminController::class,'viewLeaveRequests'])-
 Route::match(['get', 'post'], '/searchLeave', [AdminController::class, 'searchLeave']);
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
-Route::get("/home",[EmployeeController::class,'viewHome']);
+Route::get("/home",[EmployeeController::class,'viewHome'])->name('home');
+
+// ***
+// ***
+// ***
 
 //Employee Links
-Route::get('/employee_profile',[EmployeeController::class,'viewEmployeeProfile'])->name('/employee_profile');
-// ***
-// ***
-// ***
+Route::get('/employee/profile',[EmployeeController::class,'viewEmployeeProfile'])->name('/employee/profile');
+Route::post('/updateProfile',[EmployeeController::class,'updateEmployeeName']);
 
 // Employee Dashboard
 Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');

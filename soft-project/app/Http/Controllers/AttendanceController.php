@@ -24,7 +24,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('employeeID', Auth::id())
                                 ->orderBy('scheduleDate', 'desc')
                                 ->get();
-        return view('attendance.index', compact('attendance'));
+        return view('attendance', compact('attendance'));
     }
 
     public function clockIn()

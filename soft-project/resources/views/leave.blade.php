@@ -1,6 +1,11 @@
 @extends('layout.layout')
 
 @section('content')
+<style>
+    div nav {
+        background: none;
+    }
+</style>
 
     <section class="admin-ui">
         <section class="admin-nav">
