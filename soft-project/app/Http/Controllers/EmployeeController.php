@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Payroll;
 
 class EmployeeController extends Controller
 {
@@ -45,5 +46,10 @@ class EmployeeController extends Controller
         $employee->lastName = $request->input('last_name');
         $employee->save();
         return redirect()->route('/employee/profile')->with('msg', 'Name updated successfully!');
+    }
+    public function viewEmployeePayHistory(){
+        $employee = Auth::guard('employee')->user();
+        $history=Payroll::where('employeeID',$employee->employeeID)->get();
+        return view('employee_payroll',['employee'=>$employee,'history'=>$history]);
     }
 }

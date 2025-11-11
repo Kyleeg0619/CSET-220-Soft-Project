@@ -445,3 +445,19 @@ footer {
     align-items: center;
     flex-wrap: wrap;
 }
+/*Employee Payroll History */
+.payroll_history{
+    display:flex;
+    flex-wrap:wrap;
+}
+.information_row{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    width:100%;
+    padding:25px 0px;
+}
+.info_cell{
+    width:14%;
+    text-align:center;
+}

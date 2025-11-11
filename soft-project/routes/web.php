@@ -47,3 +47,5 @@ Route::post('/updateProfile',[EmployeeController::class,'updateEmployeeName']);
 Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');
 Route::post('/clock-in', [AttendanceController::class,'clockIn'])->name('clock.in');
 Route::post('/clock-out', [AttendanceController::class,'clockOut'])->name('clock.out');
+//Employee Payroll History
+Route::get('/employee_payroll',[EmployeeController::class,'viewEmployeePayrollHistory']);
