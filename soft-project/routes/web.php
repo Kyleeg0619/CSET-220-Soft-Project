@@ -48,4 +48,4 @@ Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('atte
 Route::post('/clock-in', [AttendanceController::class,'clockIn'])->name('clock.in');
 Route::post('/clock-out', [AttendanceController::class,'clockOut'])->name('clock.out');
 //Employee Payroll History
-Route::get('/employee_payroll',[EmployeeController::class,'viewEmployeePayrollHistory']);
+Route::get('/employee_payroll',[EmployeeController::class,'viewEmployeePayHistory']);

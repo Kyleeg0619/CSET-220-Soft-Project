@@ -48,8 +48,8 @@ class EmployeeController extends Controller
         return redirect()->route('/employee/profile')->with('msg', 'Name updated successfully!');
     }
     public function viewEmployeePayHistory(){
-        $employee = Auth::guard('employee')->user();
-        $history=Payroll::where('employeeID',$employee->employeeID)->get();
+          $employee = Auth::guard('employee')->user();
+          $history=Payroll::where('employeeID',$employee->employeeID)->get();
         return view('employee_payroll',['employee'=>$employee,'history'=>$history]);
     }
 }

@@ -455,7 +455,8 @@ footer {
     flex-direction:row;
     flex-wrap:wrap;
     width:100%;
-    padding:25px 0px;
+    padding:10px 0px;
+    border-bottom:3px solid lightgrey;
 }
 .info_cell{
     width:14%;

@@ -20,7 +20,8 @@
 <div class="info_cell">{{$payroll->overtimeHours}}</div>
 <div class="info_cell">{{$payroll->otRate}}</div>
 <div class="info_cell">${{$payroll->totalSalary}}</div>
-@endforeach
 </div>
+@endforeach
+</div> 
 </main>
 @endsection
