@@ -24,6 +24,15 @@ Route::get('/admin/deniedRequest/{requestID}',[AdminController::class,'denyReque
 // Admin Links
 Route::get('/admin/createEmployee',[AdminController::class,'viewCreateEmployee']);
 Route::post('/admin/employeeCreated',[AdminController::class,'createEmployee']);
+Route::get('/admin/editemployee/{id}', [AdminController::class, 'viewEditEmployee'])->name('editEmployee');
+Route::post('/admin/updateemployee/{id}', [AdminController::class, 'updateEmployee'])->name('updateEmployee');
+Route::get('/admin/deleteemployee/{id}', [AdminController::class, 'deleteEmployee'])->name('deleteEmployee');
+Route::get('/admin/viewemployee/{id}', [AdminController::class, 'viewEmployeeProfile']);
+Route::get('/admin/employee/{id}', [AdminController::class, 'viewEmployeeProfile'])
+     ->name('employee.profile');
+Route::post('/admin/employee/{id}/update', [AdminController::class, 'updateEmployeeProfile'])
+     ->name('employee.profile.update');
+
 
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome']);
@@ -33,6 +42,4 @@ Route::get('/links', function() {
     return view('links');
 });
 
-Route::get('/test', function () {
-    return 'Hello world';
-});
+

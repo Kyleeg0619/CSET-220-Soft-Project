@@ -76,7 +76,20 @@
         .search-btn:hover {
     background-color: #c3aebe;
         }
-
+        
+    .view-btn {
+    background-color: #d9cde3;
+    border: none;
+    border-radius: 15px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+.view-btn:hover {
+    background-color: #c5b2d1;
+}
     </style>
 </head>
 <body>
@@ -103,7 +116,7 @@
             </header>
 
             <div class="actions">
-                <a href="{{ url('/admin/createemployee') }}" class="insert-btn">Insert</a>
+                <a href="{{ url('/admin/createEmployee') }}" class="insert-btn">Insert</a>
             </div>
 
             <table class="employee-table">
@@ -128,6 +141,7 @@
                         <td>${{ number_format($emp->salary, 0) }}</td>
                         <td>********</td>
                         <td>
+                            <a href="{{ url('/admin/viewemployee/'.$emp->employeeID) }}" class="view-btn">View</a>
                             <a href="{{ url('/admin/editemployee/'.$emp->employeeID) }}" class="edit-btn">Edit</a>
                             <a href="{{ url('/admin/deleteemployee/'.$emp->employeeID) }}" 
                             class="delete-btn" 
