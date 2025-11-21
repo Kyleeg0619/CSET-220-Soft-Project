@@ -145,4 +145,12 @@ class AdminController extends Controller
             ->simplePaginate(10);
         return view('leave',['employees'=>$employees]);
     }
+
+    public function viewPayroll() {
+        $admin = Auth::guard('admin')->user();
+
+        $employees = Employee::where('companyID',$admin->companyID)->get();
+
+        return view('payroll',['employees'=>$employees]);
+    }
 }

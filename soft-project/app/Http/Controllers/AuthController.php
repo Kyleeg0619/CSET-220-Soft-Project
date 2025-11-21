@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
-
     public function viewLogin() {
         return view('login');
     }
@@ -48,6 +46,15 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('home'); // Redirects the user to the desired location after logout
+    }
+
+    public function counter() {
+        $startDate = new \DateTime('2024-11-01');
+        $currentDate = new \DateTime();
+        $interval = $startDate->diff($currentDate)->days;
+        if ($currentDate < $startDate) {
+            $interval = 0;
+        }
     }
 
 }
