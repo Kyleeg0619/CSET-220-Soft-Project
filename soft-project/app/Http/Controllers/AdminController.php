@@ -12,17 +12,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        // TEMP FIX: bypass login for testing
-        if (!session()->has('user')) {
-            session(['user' => (object)[
-                'companyID' => 1,
-                'firstName' => 'Test',
-                'lastName'  => 'Admin'
-            ]]);
-        }
-    }
 
     public function viewAdminDashboard()
     {
