@@ -1,7 +1,18 @@
 @extends('layout.layout')
 @section('content')
-
     <section class="home">
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h1>Put Workforce Understanding to Work with Smart HR</h1>
+                    <p>Smart HR is the workforce operating platform that empowers your front line and connects your front office. With powerful technology and actionable insights, it helps you solve challenges in any moment—across every industry.</p>
+                </div>
+                <video autoplay muted loop>
+                    <source src="{{ asset('images/banner-bg.mp4') }}">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
     <h3 style="text-align:center;margin-top:25px;">Make the Intelligent Decision. Use our Smart Human Resources Services!</h3>
     <div class="home_section">
         <div class="home_section_half">
@@ -12,35 +23,44 @@
             <a href="/login" class="approve">Login</a>
         </div>
     </div>
-    <div class="home_section">
+    <div class="home_section graphic-section">
     <div class="home_section_half">
-        <h3 style="text-align:center">Easy Company Management</h3>
-        <p>Our website's intuitive home management system allows for simple management of your employees! View the statistics of your company's employees with the greatest of ease! Update salaries and roles in no time! Approve or decline requests of leave in an instant!</p>
+        <h3 style="text-align:center">Seamless Clock-In Experience</h3>
+        <p>Give your team the power to clock in and out instantly with our user-friendly design. Reduce errors and save valuable time by streamlining attendance tracking into one simple step. Update salaries and roles in no time! Approve or decline requests of leave in an instant!</p>
     </div>
-    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_2.png')}})"><img src="{{asset('images/business_man_on_computer.jpg')}}" height=300px width=250px alt="A Business Man on a Computer"></div>
+    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_2.png')}});border-radius: 0 20px 20px 0">
+        <img src="{{asset('images/employee_teamwork.jpg')}}" alt="A Business Man on a Computer">
     </div>
-    <div class="home_section">
-    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}})">
-    <img src="{{asset('images/employees.jpg')}}" width=300px height=200px>
+    </div>
+    <div class="home_section graphic-section">
+    <div class="home_section_half" style="background-image:url({{asset('images/tech-effect_home_1.png')}});border-radius:20px 0 0 20px">
+    <img src="{{asset('images/employees.jpg')}}">
     </div>
     <div class="home_section_half">
     <h3 style="text-align:center">Employee Empowerment</h3>
-    <p>With our simple system for employees, they will be able to spend less time logging and more time working! Clock in and out in no time! Check out your salary and locate other basic details easily!</p>
+    <p>With our simple system for employees, they will be able to spend less time logging and more time working! Our intuitive design eliminates unnecessary steps, streamlining attendance and task management so your team can focus on what truly matters—productivity and growth. </p>
     </div>
     </div>
     <h3 style="text-align:center;margin-top:25px;">Our Satisfied Customers!</h3>
     <div class="review_section">
-    <div class="review" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/saxton_hale_profile.png')}})">
-    <div class="review_comment"><p>"Smart-HR's management system's great, mate! Thanks to it, I can always appropriately assign my workers, giving me more time for what I really enjoy: punching endangered animals into extinction!"</p></div>
-    Saxton Hale<br>CEO of Mann Co
+    <div class="review" style="background-image:url({{asset('images/review_2.jpg')}})">
+    <div class="review_comment">
+        <p>"Finally, HR made simple! Our company switched to Smart HR last quarter, and it’s been a game-changer. Managing requests and payroll is faster than ever.""
+        </p>
+        <p></p>
+    </div>  
+    <p>David R.,<br>Operations Lead at GreenLeaf Organics</p>
     </div>
-    <div class="review center_comment" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/victor_veloci_profile.png')}});">
-    <div class="review_comment"><p>"Smart-HR is the perfect system for my large-scale business. Thanks to it, I can direct my employees in my plans to create a Second Mesozoic Era and capture those PERFECT DINOSA... uhhh, I mean, release my highly healthy bio-engineered chicken feed and donate money to orphanages!"</p></div>
-    Victor Veloci<br>CEO of Raptordyne
+    <div class="review" style="background-image:url({{asset('images/review_3.jpg')}});">
+    <div class="review_comment"><p>"Intuitive and reliable. I love how easy it is for employees to clock in and out. The system feels modern and saves us hours every week."
+</p></div>
+    <p>Jessica M.,<br>HR Manager at BrightTech Solutions</p>
     </div>
-    <div class="review" style="background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url({{asset('images/nute_gunray_profile.png')}})">
-    <div class="review_comment"><p>"Smart-HR is a lifesaver! With it, I can find exactly how to underpay my employees, providing me with more time to guide my droids and plot revenge against the Jedi and Senator Amidala! Thank you, Smart-HR, you are truly a manager's best friend!"</p></div>
-    Nute Gunray<br>Viceroy of the Trade Federation
+    <div class="review" style="background-image:url({{asset('images/review_1.jpg')}})">
+    <div class="review_comment"><p>"Data at my fingertips. The statistics dashboard helps me spot trends in staffing and wages. It’s like having an HR assistant working 24/7."
+</p></div>
+    <p>Samantha K.,<br>CEO of Horizon Logistics</p>
+
     </div>
     </div>  
     </section>
