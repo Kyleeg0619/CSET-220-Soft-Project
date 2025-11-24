@@ -15,6 +15,7 @@
             <hr class="nav-spacer" style="border-color: var(--periwinkle);border-width:2.5px;margin-bottom:10px;">
             <a href="" class="dashboard-links"><h3>Employees</h2></a>
             <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h2></a>
+            <a href="/admin/payroll" class="dashboard-links"><h3>Payroll Approval</h3></a>
         </section>
         <section class="admin-content">
             <table class="leave-block" style="position: relative">
