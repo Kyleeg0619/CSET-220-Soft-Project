@@ -17,11 +17,9 @@ class AttendanceController extends Controller
 
     public function dashboard()
     {
-        if (session('role') !== 'employee') {
-            abort(403, 'Access denied');
-        }
+        $employee = Auth::guard('employee')->user();
 
-        $attendance = Attendance::where('employeeID', Auth::id())
+        $attendance = Attendance::where('employeeID', $employee->employeeID)
                                 ->orderBy('scheduleDate', 'desc')
                                 ->get();
         return view('attendance', compact('attendance'));
@@ -29,7 +27,9 @@ class AttendanceController extends Controller
 
     public function clockIn()
     {
-        $alreadyClockedIn = Attendance::where('employeeID', Auth::id())
+        $employee = Auth::guard('employee')->user();
+
+        $alreadyClockedIn = Attendance::where('employeeID', $employee->employeeID)
                             ->where('scheduleDate', $this->todayDateString())
                             ->whereNull('clockOut')
                             ->first();
@@ -39,7 +39,7 @@ class AttendanceController extends Controller
         }
 
         Attendance::create([
-            'employeeID'  => Auth::id(),
+            'employeeID'  => $employee->employeeID, // ✅ correct
             'scheduleDate'=> $this->todayDateString(),
             'clockIN'     => now()->setTimezone(config('app.timezone'))
         ]);
@@ -47,9 +47,11 @@ class AttendanceController extends Controller
         return redirect()->route('attendance')->with('msg', 'Successfully clocked in!');
     }
 
+
     public function clockOut()
     {
-        $record = Attendance::where('employeeID', Auth::id())
+        $employee = Auth::guard('employee')->user();
+        $record = Attendance::where('employeeID', $employee->employeeID)
                     ->where('scheduleDate', $this->todayDateString())
                     ->whereNull('clockOut')
                     ->first();

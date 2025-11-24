@@ -13,10 +13,11 @@ class Leaverequest extends Model
 
     protected $fillable = [
         'employeeID',
+        'companyID',
         'reason',
         'leaveStart',
         'leaveEnd',
         'approvalStatus',
-        'requestDate'
+        'submissionDate'
     ];
 }

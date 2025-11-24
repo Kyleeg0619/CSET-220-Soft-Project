@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PayrollController;
 use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +33,10 @@ Route::post('/admin/employeeCreated',[AdminController::class,'createEmployee']);
 
 Route::get('/admin/leaverequests',[AdminController::class,'viewLeaveRequests'])->name('leave');
 Route::match(['get', 'post'], '/searchLeave', [AdminController::class, 'searchLeave']);
+
+Route::get('/admin/payroll', [PayrollController::class, 'index'])->name('payroll.index');
+Route::post('/admin/payroll/generate', [PayrollController::class, 'generate'])->name('payroll.generate');
+
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
 Route::get("/home",[EmployeeController::class,'viewHome'])->name('home');
@@ -47,3 +53,10 @@ Route::post('/updateProfile',[EmployeeController::class,'updateEmployeeName']);
 Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');
 Route::post('/clock-in', [AttendanceController::class,'clockIn'])->name('clock.in');
 Route::post('/clock-out', [AttendanceController::class,'clockOut'])->name('clock.out');
+
+
+// Employee Leave Management
+
+Route::get('leave/request', [LeaveController::class, 'requestForm'])->name('leave.request');
+Route::post('leave/submit', [LeaveController::class, 'submitRequest'])->name('leave.submit');
+Route::get('leave/history', [LeaveController::class, 'history'])->name('leave.history');
