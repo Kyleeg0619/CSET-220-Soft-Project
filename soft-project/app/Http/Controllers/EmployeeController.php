@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Designation;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
@@ -23,5 +30,20 @@ class EmployeeController extends Controller
 
     public function viewHome() {
         return view('home');
+    }
+    public function viewEmployeeProfile(){
+        $employee = Auth::guard('employee')->user();
+        $designation=Designation::where('designationID',$employee->designationID)->first();
+        $department=Department::where('departmentID',$employee->departmentID)->first();
+        $company=Company::where('companyID',$employee->companyID)->first();
+        return view('employee_profile',['employee'=>$employee,'designation'=>$designation,'department'=>$department,'company'=>$company]);
+    }
+
+    public function updateEmployeeName(Request $request){
+        $employee = Auth::guard('employee')->user();
+        $employee->firstName = $request->input('first_name');
+        $employee->lastName = $request->input('last_name');
+        $employee->save();
+        return redirect()->route('/employee/profile')->with('msg', 'Name updated successfully!');
     }
 }
