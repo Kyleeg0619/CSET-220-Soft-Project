@@ -1,18 +1,14 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
-Route::get('/', function () {
-    return view('welcome');
-});
 
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
-Route::get("/home",[EmployeeController::class,'viewHome'])->name('home');
+Route::get("/",[EmployeeController::class,'viewHome'])->name('home');
 
 // Authentication
 Route::get('/login',[AuthController::class,'viewLogin'])->name('login');
@@ -25,16 +21,29 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard')->middleware('auth:admin');
     Route::get('/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
     Route::get('/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
+  
+    // Employee Management
+    Route::get('/employeeoverview', [App\Http\Controllers\AdminController::class, 'viewEmployeeOverview']);
+        // Create
+        Route::get('/createEmployee',[AdminController::class,'viewCreateEmployee']);
+        Route::post('/employeeCreated',[AdminController::class,'createEmployee']);
+        // Edit
+        Route::get('/editemployee/{id}', [AdminController::class, 'viewEditEmployee'])->name('editEmployee');
+        Route::post('/updateemployee/{id}', [AdminController::class, 'updateEmployee'])->name('updateEmployee');
+        // Delete
+        Route::get('/deleteemployee/{id}', [AdminController::class, 'deleteEmployee'])->name('deleteEmployee');
+        // View/Update
+        Route::get('/viewemployee/{id}', [AdminController::class, 'viewEmployeeProfile']);
+        Route::get('/employee/{id}', [AdminController::class, 'viewEmployeeProfile'])
+             ->name('employee.profile');
+        Route::post('/employee/{id}/update', [AdminController::class, 'updateEmployeeProfile'])
+             ->name('employee.profile.update');
 
     // Leave Requests
     Route::get('/approveRequest/{requestID}',[AdminController::class,'approveRequest'])->name('approveRequest');
     Route::get('/deniedRequest/{requestID}',[AdminController::class,'denyRequest'])->name('denyRequest');
     Route::get('/leaverequests',[AdminController::class,'viewLeaveRequests'])->name('leave');
     Route::match(['get', 'post'], '/searchLeave', [AdminController::class, 'searchLeave'])->name('searchLeave');
-
-    // Create Employee
-    Route::get('/createEmployee',[AdminController::class,'viewCreateEmployee']);
-    Route::post('/employeeCreated',[AdminController::class,'createEmployee']);
 
     // Payroll History
     Route::get('/payroll',[AdminController::class,'viewPayroll'])->name('payroll');
