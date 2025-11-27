@@ -233,6 +233,8 @@ footer {
     text-align:center;
     flex-direction:row;
     border-radius: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .home_section_half{
@@ -322,7 +324,7 @@ video {
     border-radius: 20px;
 }
 
-/* Admin Dashboard */
+/* Admin Template */
 .admin-ui {
     display: grid;
     grid-template-columns: auto 70%;
@@ -335,15 +337,20 @@ video {
     margin: 25px auto;
     border-radius: 20px;
     padding: 25px;
+    min-height: 500px;
+    max-height: 1080px;
 }
 
 .dashboard-links {
-    color: var(--periwinkle);
     text-decoration: none;
     transition: all 0.4s;
 }
 
-.dashboard-links:hover {
+.admin-nav .dashboard-links {
+    color: var(--periwinkle);
+}
+
+.admin-nav .dashboard-links:hover {
     color: var(--lavender);
 }
 
@@ -352,6 +359,7 @@ video {
     position: relative;
 }
 
+/* Admin Dashboard */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -498,6 +506,7 @@ video {
 .profile_container{
     width:50%;
 }
+
 .monthly_salary{
     background-color:lightblue;
     border-radius:10px;
@@ -523,7 +532,38 @@ video {
 }
 
 #changeName {
+    width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     flex-wrap: wrap;
 }
+
+/* Employee Template */
+.employee-ui {
+    display: grid;
+    grid-template-columns: auto 70%;
+    justify-content: center;
+}
+
+.employee-nav {
+    background: var(--deep-navy);
+    color: var(--periwinkle);
+    margin: 25px auto;
+    border-radius: 20px;
+    padding: 25px;
+    min-height: 500px;
+    max-height: 1080px;
+}
+
+.employee-nav .dashboard-links {
+    color: var(--periwinkle);
+}
+
+.employee-nav .dashboard-links:hover {
+    color: var(--lavender);
+}
+
+.employee-content {
+    padding: 25px;
+    position: relative;
+}   

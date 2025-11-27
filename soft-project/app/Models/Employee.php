@@ -9,7 +9,6 @@ class Employee extends Authenticatable
 {
     public $timestamps = false;
     protected $primaryKey = 'employeeID';
-    public $timestamps = false;
     protected $fillable = [
         'firstName',
         'lastName',

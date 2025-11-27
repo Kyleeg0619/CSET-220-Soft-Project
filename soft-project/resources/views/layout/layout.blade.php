@@ -33,7 +33,7 @@
             <button type="submit">Logout</button>
         </form>
     @elseif (Auth::guard('employee')->user())
-        <a href="/attendance">Dashboard</a>
+        <a href="/employee/attendance">Dashboard</a>
         <hr class="nav-spacer">
         <a href="/employee/profile">Profile</a>
         <hr class="nav-spacer">
@@ -54,7 +54,7 @@
     <main>
 
 {{-- Page Content Goes Here --}}
-@yield('content')  
+@yield('template-content')  
 
     </main>
 

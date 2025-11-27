@@ -1,7 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
@@ -18,12 +17,12 @@ Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 // Admin
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // Dashboard
-    Route::get('/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard')->middleware('auth:admin');
+    Route::get('/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard');
     Route::get('/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
     Route::get('/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
   
     // Employee Management
-    Route::get('/employeeoverview', [App\Http\Controllers\AdminController::class, 'viewEmployeeOverview']);
+    Route::get('/employeeoverview', [AdminController::class, 'viewEmployeeOverview']);
         // Create
         Route::get('/createEmployee',[AdminController::class,'viewCreateEmployee']);
         Route::post('/employeeCreated',[AdminController::class,'createEmployee']);

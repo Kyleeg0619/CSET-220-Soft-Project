@@ -45,7 +45,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('home'); // Redirects the user to the desired location after logout
+        return redirect()->route('home'); // Redirects the user to the desired location after logout
     }
 
     public function counter() {

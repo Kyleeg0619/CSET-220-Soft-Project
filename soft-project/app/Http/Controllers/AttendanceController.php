@@ -12,7 +12,7 @@ class AttendanceController extends Controller
 {
         protected function todayDateString()
     {
-        return Carbon::today(config('app.timezone'))->toDateString();
+        return Carbon::today('America/New_York')->toDateString();
     }
 
     public function dashboard()
@@ -40,7 +40,7 @@ class AttendanceController extends Controller
         Attendance::create([
             'employeeID'  => Auth::id(),
             'scheduleDate'=> $this->todayDateString(),
-            'clockIN'     => now()->setTimezone(config('app.timezone'))
+            'clockIN'     => now()->setTimezone('America/New_York')
         ]);
 
         return redirect()->route('attendance')->with('msg', 'Successfully clocked in!');
@@ -58,8 +58,8 @@ class AttendanceController extends Controller
             return redirect()->route('attendance')->with('msg','You have not clocked in today.');
         }
 
-        $clockIn  = Carbon::parse($record->clockIN)->setTimezone(config('app.timezone'));
-        $clockOut = now()->setTimezone(config('app.timezone'));
+        $clockIn  = Carbon::parse($record->clockIN)->setTimezone('America/New_York');
+        $clockOut = now()->setTimezone('America/New_York');
 
         $minutes = $clockIn->diffInMinutes($clockOut);
         $hoursDecimal = round($minutes / 60, 2);

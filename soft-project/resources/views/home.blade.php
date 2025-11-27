@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('content')
+@section('template-content')
     <section class="home">
         <div class="banner">
             <div class="banner-content">
@@ -15,12 +15,16 @@
         </div>
     <h3 style="text-align:center;margin-top:25px;">Make the Intelligent Decision. Use our Smart Human Resources Services!</h3>
     <div class="home_section">
-        <div class="home_section_half">
-            <img src="{{asset('images/big_brain.jpg')}}" width=400px alt="Transcendant Levels of Intelligence">
+        <div>
+            <video autoplay muted loop>
+                <source src="{{ asset('images/brain.mp4') }}">
+                Your browser does not support the video tag.
+            </video>
         </div>
-        <div class="home_section_half">
+        <div style="text-align: left">
+            <h4>Get Started</h4>
             <p>Our Smart HR System provides a simple, yet effective method for managing companies! Add, edit, and fire employees with ease! Approve requests for time off, check your company's employee-related statistics, and raise your employees' wages, all with a few simple clicks. Allow your employees to clock in and out in but a moment with our intuitive design.</p>
-            <a href="/login" class="approve">Login</a>
+            <a href="/login" class="approve" style="margin: 10px auto">Login</a>
         </div>
     </div>
     <div class="home_section graphic-section">

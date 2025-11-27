@@ -32,7 +32,7 @@ class AdminController extends Controller
         $today = date('Y-m-d');
         $presentEmployees = Attendance::where('attendance.scheduleDate', $today)
             ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
-            ->where('employees.companyID', session('user')->companyID)
+            ->where('employees.companyID', $admin->companyID)
             ->count();
 
         $absentEmployees = $totalEmployees - $presentEmployees;
@@ -78,8 +78,19 @@ class AdminController extends Controller
 
     public function viewEmployeeOverview(Request $request)
     {
+        $admin = Auth::guard('admin')->user();
         $sort = $request->get('sort', 'lastName');
         $order = $request->get('order', 'asc');
+        return view('admin_employeeoverview', [
+            'employees' => Employee::where('employees.companyID', $admin->companyID)
+                ->leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
+                ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
+                ->select('employees.*', 'departments.departmentName', 'designationName')
+                ->orderBy($sort, $order)
+                ->paginate(10),
+        ]);
+    }
+
     public function approveRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Approved']);
 
