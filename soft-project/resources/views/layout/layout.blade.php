@@ -24,9 +24,11 @@
     @if (Auth::guard('admin')->user())
         <a href="/admin/dashboard">Dashboard</a>
         <hr class="nav-spacer">
-        {{-- <a href="/admin/employees">Employees</a> --}}
+        <a href="/admin/employees">Employees</a>
         <hr class="nav-spacer">
         <a href="/admin/leaverequests">Leave Requests</a>
+        <hr class="nav-spacer">
+        <a href="/admin/payroll">Payroll</a>
         <hr class="nav-spacer">
         <form method="POST" action="{{ route('logout') }}">
             @csrf

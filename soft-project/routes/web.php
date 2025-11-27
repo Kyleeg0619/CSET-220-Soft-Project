@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PayrollController;
 
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
