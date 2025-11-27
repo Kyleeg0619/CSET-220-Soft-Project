@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.admin')
 
 @section('content')
 <style>
@@ -7,16 +7,7 @@
     }
 </style>
 
-    <section class="admin-ui">
-        <section class="admin-nav">
-            <a href="/admin/dashboard" class="dashboard-links">
-                <h1>Dashboard</h1>
-            </a>
-            <hr class="nav-spacer" style="border-color: var(--periwinkle);border-width:2.5px;margin-bottom:10px;">
-            <a href="" class="dashboard-links"><h3>Employees</h2></a>
-            <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h2></a>
-        </section>
-        <section class="admin-content">
+
             <table class="leave-block" style="position: relative">
                 <tr>
                     <td colspan="8">
@@ -79,7 +70,6 @@
                     <input type="text" name="search" placeholder="Name..." class="search-input">
                     <button type="submit" class="search-submit">Search</button>
             </form>
-        </section>
-    </section>
+
 
 @endsection
