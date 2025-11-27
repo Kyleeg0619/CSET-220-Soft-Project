@@ -28,6 +28,7 @@ class AttendanceController extends Controller
     public function clockIn()
     {
         $employee = Auth::guard('employee')->user();
+
         $alreadyClockedIn = Attendance::where('employeeID', $employee->employeeID)
                             ->where('scheduleDate', $this->todayDateString())
                             ->whereNull('clockOut')
@@ -38,13 +39,14 @@ class AttendanceController extends Controller
         }
 
         Attendance::create([
-            'employeeID'  => Auth::id(),
+            'employeeID'  => $employee->employeeID, // ✅ correct
             'scheduleDate'=> $this->todayDateString(),
             'clockIN'     => now()->setTimezone('America/New_York')
         ]);
 
         return redirect()->route('attendance')->with('msg', 'Successfully clocked in!');
     }
+
 
     public function clockOut()
     {

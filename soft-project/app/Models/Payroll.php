@@ -2,22 +2,37 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class payroll extends Model
+class Payroll extends Model
 {
-    protected $table = 'payroll';
+    use HasFactory;
 
+    protected $table = 'payroll';
     protected $primaryKey = 'payrollID';
+    public $timestamps = false;
 
     protected $fillable = [
-        'payrollID',
         'employeeID',
         'companyID',
-        'payPeriodEnd',
+        'payStart',
+        'payEnd',
         'grossPay',
-        'netPay',
+        'overtimeHours',
         'deductions',
-        'companyID'
+        'payment',
+        'status',
+        'notes'
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employeeID', 'employeeID');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'companyID', 'companyID');
+    }
 }
