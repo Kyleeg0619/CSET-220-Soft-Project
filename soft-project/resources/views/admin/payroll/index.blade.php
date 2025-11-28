@@ -1,37 +1,39 @@
 @extends('layout.layout')
 
-@section('content')
+@section('template-content')
 <h1>Payroll Records</h1>
 
-<form action="{{ route('payroll.generate') }}" method="POST">
+<form action="{{ route('payroll.generate') }}" method="POST" style="margin-bottom: 20px;">
     @csrf
-    <label>Pay Period Start:</label>
-    <input type="date" name="payStart" value="{{ now()->startOfMonth()->toDateString() }}">
-    <label>Pay Period End:</label>
-    <input type="date" name="payEnd" value="{{ now()->endOfMonth()->toDateString() }}">
-    <button type="submit">Generate Payroll</button>
+    <button type="submit" style="padding: 10px 20px; font-size: 16px;">Generate 2-Week Payroll</button>
 </form>
 
-<table>
+<table style="width: 100%; border-collapse: collapse;">
     <thead>
-        <tr>
-            <th>Employee</th>
-            <th>Gross Pay</th>
-            <th>Overtime Hours</th>
-            <th>Deductions</th>
-            <th>Payment</th>
-            <th>Status</th>
+        <tr style="background-color: #f0f0f0; text-align: left;">
+            <th style="padding: 12px 15px;">Employee</th>
+            <th style="padding: 12px 15px;">Gross Pay</th>
+            <th style="padding: 12px 15px;">Overtime Hours</th>
+            <th style="padding: 12px 15px;">Deductions</th>
+            <th style="padding: 12px 15px;">Payment</th>
+            <th style="padding: 12px 15px;">Status</th>
         </tr>
     </thead>
     <tbody>
         @foreach($payrolls as $p)
-        <tr>
-            <td>{{ $p->employee->firstName }} {{ $p->employee->lastName }}</td>
-            <td>${{ number_format($p->grossPay, 2) }}</td>
-            <td>{{ $p->overtimeHours }}</td>
-            <td>${{ number_format($p->deductions, 2) }}</td>
-            <td>${{ number_format($p->payment, 2) }}</td>
-            <td>{{ $p->status }}</td>
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px 15px;">
+                @if($p->employee)
+                    {{ $p->employee->firstName }} {{ $p->employee->lastName }}
+                @else
+                    <span style="color:red;">(Employee Missing)</span>
+                @endif
+            </td>
+            <td style="padding: 10px 15px;">${{ number_format($p->grossPay, 2) }}</td>
+            <td style="padding: 10px 15px;">{{ $p->overtimeHours }}</td>
+            <td style="padding: 10px 15px;">${{ number_format($p->deductions, 2) }}</td>
+            <td style="padding: 10px 15px;">${{ number_format($p->payment, 2) }}</td>
+            <td style="padding: 10px 15px;">{{ $p->status }}</td>
         </tr>
         @endforeach
     </tbody>
