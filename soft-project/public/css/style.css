@@ -587,6 +587,23 @@ video {
     flex-direction: column;
     flex-wrap: wrap;
 }
+/*Employee Payroll History */
+.payroll_history{
+    display:flex;
+    flex-wrap:wrap;
+}
+.information_row{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    width:100%;
+    padding:10px 0px;
+    border-bottom:3px solid lightgrey;
+}
+.info_cell{
+    width:14%;
+    text-align:center;
+}
 
 /* Employee Template */
 .employee-ui {
