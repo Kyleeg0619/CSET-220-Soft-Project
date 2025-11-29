@@ -23,6 +23,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
     Route::get('/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
   
+    // Attendance Records
+    Route::get('/attendance', [AdminController::class, 'viewAttendanceRecords'])->name('admin.attendance');
+    Route::post('/attendance/filter', [AdminController::class, 'filterAttendance'])->name('admin.attendance.filter');
+
     // Employee Management
     Route::get('/employeeoverview', [AdminController::class, 'viewEmployeeOverview']);
         // Create
@@ -49,6 +53,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // Payroll
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
     Route::post('/payroll/generate', [PayrollController::class, 'generate'])->name('payroll.generate'); 
+    Route::get('/payroll/markAllPayroll', [PayrollController::class, 'markAllProcessed'])->name('payroll.markAll');
+    Route::get('/payroll/mark/{payrollID}', [PayrollController::class, 'markProcessed'])->name('payroll.mark');
 });
 
 // ***

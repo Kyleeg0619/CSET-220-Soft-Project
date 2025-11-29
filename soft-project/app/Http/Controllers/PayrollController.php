@@ -12,17 +12,19 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $payrolls = Payroll::with('employee')->get();
+        $admin = auth()->guard('admin')->user();
+        $payrolls = Payroll::with('employee')->where('companyID',$admin->companyID)->orderBy('payStart','desc')->orderBy('status','desc')->paginate(50);
         return view('admin.payroll.index', compact('payrolls'));
     }
 
     public function generate(Request $request)
     {
+        $admin = auth()->guard('admin')->user();
         $payStart = $request->input('payStart', Carbon::now()->startOfMonth()->toDateString());
         $payEnd = $request->input('payEnd', Carbon::now()->endOfMonth()->toDateString());
 
         $deductions = $request->input('deductions', []);
-        $employees = Employee::all();
+        $employees = Employee::where('companyID', $admin->companyID)->get();
 
         foreach ($employees as $emp) {
 
@@ -58,5 +60,17 @@ class PayrollController extends Controller
         }
 
         return redirect()->back()->with('success', 'Payroll generated successfully.');
+    }
+
+    public function markAllProcessed()
+    {
+        Payroll::where('status', 'Unprocessed')->update(['status' => 'Processed']);
+        return redirect()->back()->with('success', 'All unprocessed payrolls have been marked as processed.');
+    }
+
+    public function markProcessed($id)
+    {
+        Payroll::where('payrollID', $id)->update(['status' => 'Processed']);
+        return redirect()->back()->with('success', "Payroll $id has been marked as processed.");
     }
 }

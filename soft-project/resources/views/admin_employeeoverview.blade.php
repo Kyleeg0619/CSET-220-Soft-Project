@@ -25,19 +25,6 @@
             color: var(--periwinkle)
         }
 
-        .employee-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        .employee-table th, .employee-table td {
-            padding: 5px;
-            border-bottom: 1px solid #ccc;
-        }
-        .actions {
-            margin-top: 10px;
-        }
-
         .search-container {
     display: flex;
     align-items: center;
@@ -78,6 +65,10 @@
     margin: 5px;
     text-align: center
 }
+
+div nav {
+            background: none;
+        }
     </style>
 
 @section('content')
@@ -99,12 +90,13 @@
                 <table class="employee-table">
                     <thead>
                         <tr>
-                            <th>LastName, FirstName</th>
+                            <th>Name</th>
                             <th>Email</th>
+                            <th>Password</th>
                             <th>Department</th>
                             <th>Designation</th>
-                            <th>Salary</th>
-                            <th>Password</th>
+                            <th>Employment<br>Type</th>
+                            <th>Salary<br>Type</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -113,10 +105,11 @@
                         <tr>
                             <td>{{ $emp->lastName }}, {{ $emp->firstName }}</td>
                             <td>{{ $emp->email }}</td>
+                            <td>********</td>
                             <td>{{ $emp->departmentName ?? '—' }}</td>
                             <td>{{ $emp->designationName ?? '—' }}</td>
-                            <td>${{ number_format($emp->salary, 0) }}</td>
-                            <td>********</td>
+                            <td>{{ $emp->employee_type }}</td>
+                            <td>{{ $emp->salary_type }}</td>
                             <td class="controls">
                                 <a href="{{ url('/admin/viewemployee/'.$emp->employeeID) }}" class="view-btn">View</a>
                                 <a href="{{ url('/admin/editemployee/'.$emp->employeeID) }}" class="edit-btn">Edit</a>
@@ -128,6 +121,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                        <div>
+                {{ $employees->links('pagination::bootstrap-5') }}
+        </div>
             </section>
     <script>
     document.addEventListener("DOMContentLoaded", function () {

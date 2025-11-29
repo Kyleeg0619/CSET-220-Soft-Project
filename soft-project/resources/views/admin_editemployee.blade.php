@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Employee</title>
-
-    <style>
+@extends('layout.layout')
+<style>
         body { font-family: Arial, sans-serif; background: #fafafa; margin:0; }
 
         .edit-container {
@@ -55,9 +50,8 @@
             font-weight: bold;
         }
     </style>
-</head>
 
-<body>
+@section('template-content')
     <div class="edit-container">
         <h2>Edit Employee</h2>
 
@@ -93,8 +87,31 @@
                 @endforeach
             </select>
 
+            <label for="employee_type">Employment Type: </label>
+                <select name="employee_type" id="">
+                @foreach($employmentTypes as $empType)
+                    <option value="{{ $empType }}"
+                        @if($empType == $employee->employee_type) selected @endif>
+                        {{ $empType }}
+                    </option>
+                @endforeach
+                </select>
+
+            <label for="salary_type">Salary Type: </label>
+                <select name="salary_type" id="">
+                @foreach($salaryTypes as $salType)
+                    <option value="{{ $salType }}"
+                        @if($salType == $employee->salary_type) selected @endif>
+                        {{ $salType }}
+                    </option>
+                @endforeach
+                </select>
+
             <label>Salary ($)</label>
             <input type="number" name="salary" value="{{ $employee->salary }}" required>
+
+            <label>Rate ($)</label>
+            <input type="number" name="rate" value="{{ $employee->rate }}" required>
 
             <button type="submit" class="save-btn">Save Changes</button>
         </form>
@@ -102,5 +119,4 @@
         <a href="/admin/employeeoverview" class="back-btn">← Back to Employee Overview</a>
     </div>
 
-</body>
-</html>
+@endsection
