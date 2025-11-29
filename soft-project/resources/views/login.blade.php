@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('content')
+@section('template-content')
 
     <section>
             <div class="form-section">

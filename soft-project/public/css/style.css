@@ -119,7 +119,7 @@ footer {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 700px;
+    min-height: 700px;
     margin: 50px 0;
 }
 
@@ -194,13 +194,49 @@ footer {
 }
 
 /* Homepage */
+.banner {
+    background: linear-gradient(to bottom right, var(--vivid-blue), var(--lavender));
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    width: 100%;
+    margin-bottom: 25px;
+    align-content: center;
+}
+
+.banner-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 2080px;
+    margin: 0 auto;
+}
+
+.banner-content video {
+    width: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    align-self: center;
+    padding-right: 10%;
+}
+
+.banner-text {
+    color: white;
+    align-self: center;
+    padding: 0 10%;
+}
+
 .home_section{
     display:flex;
     justify-content:center;
     align-items: center;
     text-align:center;
     flex-direction:row;
+    border-radius: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
+
 .home_section_half{
     align-content:center;
     text-align:center;
@@ -210,6 +246,13 @@ footer {
     background-size:cover;
     min-height: 300px;
 }
+
+.home_section_half img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
 .review_section{
     display:flex;
     justify-content:space-around;
@@ -219,28 +262,69 @@ footer {
     background-size:cover;
 }
 .review{
+    position: relative;
     text-align:center;
-    align-items:center;
+    align-content:flex-end;
     color:white;
     background-size:cover;
-    height:400px;
-    width:300px;
+    height:500px;
+    width:400px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
+    transition: all 0.3s ease;
 }
+
+.review::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#00033d);
+  opacity: 0.3; /* control intensity */
+  z-index: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.review:hover::before {
+    opacity: 0.5; /* increase intensity on hover */
+}
+
+.review:hover {
+    transform: scale(1.1);
+}
+
 .review_comment{
+    position: relative;
     text-align:center;
-    align-items:center;
+    align-content:flex-end;
     justify-content:center;
     height:300px;
     border-bottom:white solid 2px;
     margin-top:5%;
+    z-index: 1;
 }
 
-.center_comment {
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+.review p {
+    position: relative;
+    z-index: 1;
+    margin-top: 5%;
 }
 
-/* Admin Dashboard */
+video {
+    position: relative;
+}
+
+.graphic-section {
+    max-width: 1080px;
+    margin: 50px 0;
+    border: 1px solid var(--deep-navy);
+    margin: 20px auto;
+    border-radius: 20px;
+}
+
+/* Admin Template */
 .admin-ui {
     display: grid;
     grid-template-columns: auto 70%;
@@ -253,15 +337,20 @@ footer {
     margin: 25px auto;
     border-radius: 20px;
     padding: 25px;
+    min-height: 500px;
+    max-height: 1080px;
 }
 
 .dashboard-links {
-    color: var(--periwinkle);
     text-decoration: none;
     transition: all 0.4s;
 }
 
-.dashboard-links:hover {
+.admin-nav .dashboard-links {
+    color: var(--periwinkle);
+}
+
+.admin-nav .dashboard-links:hover {
     color: var(--lavender);
 }
 
@@ -270,6 +359,7 @@ footer {
     position: relative;
 }
 
+/* Admin Dashboard */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -314,6 +404,10 @@ footer {
     margin: 20px auto;
     padding: 20px 25px;
     width: 100%;
+}
+
+.record-row {
+    border-bottom: 1px solid var(--deep-navy);
 }
 
 .leave-block td {
@@ -387,6 +481,52 @@ footer {
     cursor: pointer;
 }
 
+/* Admin - Add, Edit, Delete, View Employee */
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .employee-table th, .employee-table td {
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        .profile-card {
+            margin-top: 25px; background: white;
+            border-radius: 20px; padding: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .header-title { font-size: 28px; font-weight: bold; }
+        .header-sub { font-size: 14px; color: #6f6f6f; }
+
+/* Admin Attendance */
+.attendance-filter {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    align-items: center;
+}
+
+.attendance-filter input {
+    border-radius: 20px;
+    padding: 5px;
+    border: 1px solid var(--deep-navy);
+    background: white;
+    align-content: center;
+}
+
+.attendance-filter button {
+    background-color: var(--deep-navy);
+    color: var(--periwinkle);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    width: min-content;
+    margin-top: 0;
+}
+
+/* Employee */
 /* Employee Profile */
 .profile_holder{
     display:flex;
@@ -416,6 +556,7 @@ footer {
 .profile_container{
     width:50%;
 }
+
 .monthly_salary{
     background-color:lightblue;
     border-radius:10px;
@@ -441,8 +582,9 @@ footer {
 }
 
 #changeName {
+    width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 /*Employee Payroll History */
@@ -462,3 +604,33 @@ footer {
     width:14%;
     text-align:center;
 }
+
+/* Employee Template */
+.employee-ui {
+    display: grid;
+    grid-template-columns: auto 70%;
+    justify-content: center;
+}
+
+.employee-nav {
+    background: var(--deep-navy);
+    color: var(--periwinkle);
+    margin: 25px auto;
+    border-radius: 20px;
+    padding: 25px;
+    min-height: 500px;
+    max-height: 1080px;
+}
+
+.employee-nav .dashboard-links {
+    color: var(--periwinkle);
+}
+
+.employee-nav .dashboard-links:hover {
+    color: var(--lavender);
+}
+
+.employee-content {
+    padding: 25px;
+    position: relative;
+}   

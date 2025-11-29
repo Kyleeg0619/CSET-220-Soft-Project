@@ -1,17 +1,7 @@
-@extends('layout.layout')
+@extends('layout.admin')
 @section('content')
-    <section class="admin-ui">
-                <section class="admin-nav">
-            <a href="/admin/dashboard" class="dashboard-links">
-                <h1>Dashboard</h1>
-            </a>
-            <hr class="nav-spacer" style="border-color: var(--periwinkle);border-width:2.5px;margin-bottom:10px;">
-            <a href="" class="dashboard-links"><h3>Employees</h2></a>
-            <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h2></a>
-        </section>
-            <section class="admin-content">
-                <div class="form-section">
-                        <form action="/admin/employeeCreated" method="post" class="register-form" style="width:80%;display:block;">
+            <div class="form-section">
+                <form action="/admin/employeeCreated" method="post" class="register-form" style="width:80%;">
                 @csrf
                 <h1>Create Employee</h1>
                 <hr>
@@ -35,15 +25,24 @@
                         <option value="{{ $designation->designationID }}">{{ $designation->designationName }}</option>
                     @endforeach
                 </select>
-                <label for="salary">Salary</label>
-                <input type="number" name="salary">
+                <label for="employee_type">Employment Type: </label>
+                <select name="employee_type" id="">
+                    <option value="part-time">Part-Time</option>
+                    <option value="full-time">Full-Time</option>
+                    <option value="contract">Contract</option>
+                </select>
+                <label for="salary_type">Salary Type: </label>
+                <select name="salary_type" id="">
+                    <option value="hourly">Hourly</option>
+                    <option value="monthly">Monthly/Salary</option>
+                </select>
+                <label for="rate">Salary: </label>
+                <input type="number" name="rate" min="0.00">
                 <button type="submit" class="form-submit">Create</button>
-                        </form>
-                    </div>
+                </form>
+                </div>
                     @if(isset($success))
                 <p class="success">{{ $success }}</p>
                 @endif
-            </section>
-    </section>
 
 @endsection

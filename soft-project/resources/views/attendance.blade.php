@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.employee')
 
 @section('content')
 
@@ -12,12 +12,12 @@
     <div class="d-flex justify-content-end mb-3 gap-3">
         <form action="{{ route('clock.in') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-secondary px-4 py-2 fw-bold">CLOCK-IN</button>
+            <button type="submit" class="btn px-4 py-2 fw-bold" style="background: var(--lavender);color: white;">CLOCK-IN</button>
         </form>
 
         <form method ="POST" action="{{ route('clock.out') }}">
             @csrf
-            <button type="submit" class="btn btn-danger px-4 py-2 fw-bold">CLOCK-OUT</button>
+            <button type="submit" class="btn px-4 py-2 fw-bold" style="background: var(--vivid-blue);color: white;">CLOCK-OUT</button>
 
         </form>
     </div>

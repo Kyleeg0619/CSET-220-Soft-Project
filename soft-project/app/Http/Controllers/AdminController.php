@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Attendance;
-use App\Models\CompanyUsers;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Leaverequest;
+use App\Models\Payroll;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Can;
 
 class AdminController extends Controller
 {
@@ -26,26 +27,83 @@ class AdminController extends Controller
         ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')->limit(10)
         ->get();
 
+        // Total Employees
         $totalEmployees = Employee::where('companyID',$admin->companyID)->count();
 
-        $today = date('y-m-d');
+        // Present Employees
+        $today = Carbon::now()->toDateString();
         $presentEmployees = Attendance::where('employees.companyID',$admin->companyID)->where('attendance.scheduleDate',$today)->leftJoin('employees','attendance.employeeID','=','employees.employeeID')->count();
 
-        $absentEmployees = $totalEmployees-$presentEmployees;
+        // Absent Employees
+        $absentEmployees = $totalEmployees - $presentEmployees;
 
-        return view('admin_dashboard',['employees'=>$employees,'totalEmployees'=>$totalEmployees,'presentEmployees'=>$presentEmployees,'absentEmployees'=>$absentEmployees]);
+        // Payroll this month
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $totalPay = DB::table('payroll')
+    ->where('companyID', $admin->companyID)
+    ->whereMonth('payStart', $month)
+    ->whereYear('payStart', $year)
+    ->sum('payment');
+
+
+        return view('admin_dashboard', compact('employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay'));
     }
-
+  
     public function quickApproveRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Approved']);
-
-        return $this->viewAdminDashboard();
+      
+      return $this->viewAdminDashboard();
     }
     
     public function quickDenyRequest($id) {
         Leaverequest::where('requestID',$id)->update(['approvalStatus'=>'Denied']);
+      
+      return $this->viewAdminDashboard();
+    }
 
-        return $this->viewAdminDashboard();
+    public function viewCreateEmployee()
+    {
+        $admin = Auth::guard('admin')->user();
+        $departments = Department::where('companyID', $admin->companyID)->get();
+        $designations = Designation::all();
+
+        return view('create_employee', compact('departments', 'designations'));
+    }
+
+    public function createEmployee(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        Employee::create([
+            'firstName'     => $request->firstName,
+            'lastName'      => $request->lastName,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'departmentID'  => $request->departmentID,
+            'designationID' => $request->designationID,
+            'companyID'     => $admin->companyID,
+            'salary'        => 0.00,
+            'employee_type' => $request->employee_type,
+            'salary_type'   => $request->salary_type,
+            'rate'        => $request->rate
+        ]);
+
+        return redirect('/admin/employeeoverview')->with('success', 'Employee Created Successfully!');
+    }
+
+    public function viewEmployeeOverview(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $sort = $request->get('sort', 'lastName');
+        $order = $request->get('order', 'asc');
+        return view('admin_employeeoverview', [
+            'employees' => Employee::where('employees.companyID', $admin->companyID)
+                ->leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
+                ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
+                ->select('employees.*', 'departments.departmentName', 'designationName')
+                ->orderBy($sort, $order)
+                ->paginate(10),
+        ]);
     }
 
     public function approveRequest($id) {
@@ -60,33 +118,106 @@ class AdminController extends Controller
         return $this->viewLeaveRequests();
     }
 
-    public function viewCreateEmployee() {
+    public function viewEditEmployee($id)
+    {
         $admin = Auth::guard('admin')->user();
-        $departments = Department::where('companyID',$admin->companyID)->get();
+        $employee = Employee::leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
+            ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
+            ->select('employees.*', 'departments.departmentName', 'designations.designationName')
+            ->where('employeeID', $id)
+            ->first();
 
-        $designations = Designation::select('*')->get();
+        $departments = Department::where('companyID', $admin->companyID)->get();
+        $designations = Designation::all();
+        $employmentTypes = ['full-time', 'part-time', 'contractor'];
+        $salaryTypes = ['hourly', 'monthly'];
 
-        return view('create_employee',['departments'=>$departments,'designations'=>$designations]);
+        return view('admin_editemployee', compact('employee', 'departments', 'designations','employmentTypes','salaryTypes'));
     }
 
-    public function createEmployee(Request $request) {
-        $admin = Auth::guard('admin')->user();
-        $employee = [
-            'firstName'=>$request->firstName,
-            'lastName'=>$request->lastName,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password),
-            'departmentID'=>$request->departmentID,
-            'designationID'=>$request->designationID,
-            'companyID'=>$admin->companyID,
-            'salary'=>$request->salary
-        ];
-        Employee::insert($employee);
-        
-        $departments = Department::where('companyID',$admin->companyID)->get();
-        $designations = Designation::select('*')->get();
-        return view('create_employee',['departments'=>$departments,'designations'=>$designations,'success'=>'Employee Profile Created Successfully!']);
+    public function updateEmployee(Request $request, $id)
+    {
+        Employee::where('employeeID', $id)->update([
+            'firstName'     => $request->firstName,
+            'lastName'      => $request->lastName,
+            'email'         => $request->email,
+            'departmentID'  => $request->departmentID,
+            'designationID' => $request->designationID,
+            'employee_type' => $request->employee_type,
+            'salary_type'   => $request->salary_type,
+            'rate'          => $request->rate,
+            'salary'        => $request->salary
+        ]);
+
+        return redirect('/admin/employeeoverview')->with('success', 'Employee updated successfully!');
     }
+
+    public function deleteEmployee($id)
+    {
+        Employee::where('employeeID', $id)->delete();
+        return redirect('/admin/employeeoverview')->with('success', 'Employee deleted!');
+    }
+
+    public function viewEmployeeProfile($id)
+    {
+        $admin = Auth::guard('admin')->user();
+        $employee = Employee::leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
+            ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
+            ->select(
+                'employees.*',
+                'departments.departmentName',
+                'designations.designationName'
+            )
+            ->where('employees.employeeID', $id)
+            ->where('employees.companyID', $admin->companyID)
+            ->first();
+
+        if (!$employee) {
+            return redirect('/admin/employeeoverview')->with('error', 'Employee not found');
+        }
+
+        $departments = Department::where('companyID', $admin->companyID)->get();
+        $designations = Designation::all();
+
+        $attendanceRecords = Attendance::where('employeeID', $id)
+            ->orderBy('scheduleDate', 'desc')
+            ->paginate(25);
+
+        $payrolls = Payroll::where('employeeID', $id)
+            ->orderBy('payStart', 'desc')
+            ->paginate(25);
+
+        return view('admin_employeeprofile', compact('employee', 'departments', 'designations','attendanceRecords', 'payrolls'));
+    }
+
+    public function updateEmployeeProfile(Request $request, $id)
+{
+    $employee = Employee::findOrFail($id);
+
+    $data = [
+        'firstName'     => $request->firstName,
+        'lastName'      => $request->lastName,
+        'email'         => $request->email,
+        'departmentID'  => $request->departmentID,
+        'designationID' => $request->designationID,
+        'salary'        => $request->salary
+    ];
+
+    // Handle photo upload
+    if ($request->hasFile('profilePhoto')) {
+        $file = $request->file('profilePhoto');
+
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('employee_photos'), $filename);
+
+        $data['profilePhoto'] = $filename;
+    }
+
+    $employee->update($data);
+
+    return redirect()->route('employee.profile', $id)
+        ->with('success', 'Employee updated successfully!');
+}
 
     public function viewLeaveRequests(?Request $request = null) {
         $admin = Auth::guard('admin')->user();
@@ -144,5 +275,43 @@ class AdminController extends Controller
 
             ->simplePaginate(10);
         return view('leave',['employees'=>$employees]);
+    }
+
+    public function viewPayroll() {
+        $admin = Auth::guard('admin')->user();
+
+        $employees = Employee::where('companyID',$admin->companyID)->get();
+
+        return view('payroll',['employees'=>$employees]);
+    }
+
+    public function viewAttendanceRecords() {
+        $admin = Auth::guard('admin')->user();
+
+        $attendanceRecords = Attendance::where('employees.companyID', $admin->companyID)
+            ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
+            ->select('attendance.*', 'employees.firstName', 'employees.lastName','employees.employeeID')
+            ->orderBy('attendance.scheduleDate', 'desc')
+            ->paginate(25);
+
+        return view('admin_attendance', compact('attendanceRecords'));
+    }
+
+    public function filterAttendance(Request $request) {
+        $admin = Auth::guard('admin')->user();
+
+        if ($request->endDate < $request->startDate) {
+            return redirect()->back()->with('error', 'End date must be after start date.');
+        }
+
+        $query = Attendance::where('employees.companyID', $admin->companyID)
+            ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
+            ->select('attendance.*', 'employees.firstName', 'employees.lastName','employees.employeeID');
+
+        
+
+        $attendanceRecords = $query->whereBetween('scheduleDate',[$request->startDate,$request->endDate])->orderBy('attendance.scheduleDate', 'desc')->paginate(25);
+
+        return view('admin_attendance', compact('attendanceRecords'));
     }
 }

@@ -15,7 +15,7 @@ class Attendance extends Model
         'employeeID',
         'scheduleDate',
         'clockIN',
-        'clockOUT',
+        'clockOut',
         'totalHours'
     ];
 }

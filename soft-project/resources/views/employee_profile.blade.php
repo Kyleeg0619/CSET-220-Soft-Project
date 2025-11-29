@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.employee')
 @section('content')
 <style>
     .edit_button{
@@ -75,11 +75,13 @@
                     <label for="first_name">First Name: </label>
                     <input class="name_changer" name="first_name" type="text"
                             value="{{$employee->firstName}}">
+                            <br>
                     <label for="last_name">Last Name: </label>
                     <input class="name_changer" name="last_name" type="text"
                             value="{{$employee->lastName}}">
+                            <br>
                     <button class="approve" type="submit"
-                        form="changeName">Save Changes</button>
+                        form="changeName" style="align-self: flex-end">Save Changes</button>
                 </form>
                 @if (session('msg'))
                 <p class="success">{{ session('msg') }}</p>

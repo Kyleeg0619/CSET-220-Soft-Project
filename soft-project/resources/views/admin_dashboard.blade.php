@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.admin')
 
 <style>
     p {
@@ -7,16 +7,6 @@
 </style>
 
 @section('content')
-    <section class="admin-ui">
-        <section class="admin-nav">
-            <a href="/admin/dashboard" class="dashboard-links">
-                <h1>Dashboard</h1>
-            </a>
-            <hr class="nav-spacer" style="border-color: var(--periwinkle);border-width:2.5px;margin-bottom:10px;">
-            <a href="" class="dashboard-links"><h3>Employees</h2></a>
-            <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h2></a>
-        </section>
-        <section class="admin-content">
             <div class="stats">
                 <div class="stat-card">
                     <p>Total Employees</p>
@@ -50,7 +40,7 @@
   <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
   <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
 </svg>
-                    <p>$ </p>
+                    <p>${{ $totalPay }}</p>
                 </div>
             </div>
             <table class="leave-block">
@@ -92,8 +82,5 @@
                     </tr>
                 @endforeach
             </table>
-
-        </section>
-    </section>
 
 @endsection

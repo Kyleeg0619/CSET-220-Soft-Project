@@ -13,6 +13,7 @@ return [
     |
     */
 
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -65,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/New_York',
 
     /*
     |--------------------------------------------------------------------------
