@@ -599,6 +599,7 @@ video {
     width:100%;
     padding:10px 0px;
     border-bottom:3px solid lightgrey;
+    align-items: center;
 }
 .info_cell{
     width:14%;

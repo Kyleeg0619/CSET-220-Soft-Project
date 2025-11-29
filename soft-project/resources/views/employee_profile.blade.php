@@ -23,9 +23,6 @@
             <h4 style="width: 100%;">Employee Profile</h4>
             <div>
                 <div class="profile_pic_section"></div>
-                <div class="monthly_salary">
-                    Monthly Salary:<br>${{$employee->salary}}
-                </div>
             </div>
             <div class="profile_holder" style="width: auto">
                 <div class="profile_stats_section">

@@ -9,6 +9,7 @@
             <a href="/employee/profile" class="dashboard-links"><h3>Profile</h3></a>
             <a href="/employee/attendance" class="dashboard-links"><h3>Attendance</h3></a>
             <a href="/employee/leave/history" class="dashboard-links"><h3>Leave<br>Management</h3></a>
+            <a href="/employee/payroll" class="dashboard-links"><h3>Payroll</h3></a>
     </section>
     <section class="employee-content">
 

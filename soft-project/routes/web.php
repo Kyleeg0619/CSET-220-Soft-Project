@@ -67,7 +67,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::post('/updateProfile',[EmployeeController::class,'updateEmployeeName']);
 
     //Employee Payroll History
-    Route::get('/employee_payroll',[EmployeeController::class,'viewEmployeePayHistory']);
+    Route::get('/payroll',[EmployeeController::class,'viewEmployeePayHistory']);
   
     // Employee Dashboard
     Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');

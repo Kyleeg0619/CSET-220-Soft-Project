@@ -49,7 +49,7 @@ class EmployeeController extends Controller
     }
     public function viewEmployeePayHistory(){
           $employee = Auth::guard('employee')->user();
-          $history=Payroll::where('employeeID',$employee->employeeID)->get();
+          $history=Payroll::where('employeeID',$employee->employeeID)->paginate(30);
         return view('employee_payroll',['employee'=>$employee,'history'=>$history]);
     }
 }
