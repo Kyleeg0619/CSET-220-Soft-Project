@@ -1,8 +1,27 @@
-@extends('layout.layout')
+@extends('layout.employee')
+
+<style>
+    .request-link {
+        display: block;
+        width: fit-content;
+        background-color: var(--vivid-blue);
+        border: none;
+        border-radius: 30px;
+        padding: 8px 14px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        color: var(--periwinkle);
+        margin: 10px 0;
+        justify-self: right;
+    }
+</style>
 
 @section('content')
 <div class="container mt-5">
-    <h3 class="text-center mb-3">Leave Requests</h3>
+    <h3 class="mb-3">Leave Requests</h3>
+
+    <a href="/employee/leave/request" class="request-link">Request Leave</a>
 
     @if(session('msg'))
         <div class="alert alert-success text-center">{{ session('msg') }}</div>

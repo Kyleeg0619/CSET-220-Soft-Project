@@ -6,6 +6,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PayrollController;
 
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
@@ -23,6 +24,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
     Route::get('/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
   
+    // Attendance Records
+    Route::get('/attendance', [AdminController::class, 'viewAttendanceRecords'])->name('admin.attendance');
+    Route::post('/attendance/filter', [AdminController::class, 'filterAttendance'])->name('admin.attendance.filter');
+
     // Employee Management
     Route::get('/employeeoverview', [AdminController::class, 'viewEmployeeOverview']);
         // Create
@@ -49,6 +54,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // Payroll
     Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
     Route::post('/payroll/generate', [PayrollController::class, 'generate'])->name('payroll.generate'); 
+    Route::get('/payroll/markAllPayroll', [PayrollController::class, 'markAllProcessed'])->name('payroll.markAll');
+    Route::get('/payroll/mark/{payrollID}', [PayrollController::class, 'markProcessed'])->name('payroll.mark');
 });
 
 // ***
@@ -60,6 +67,9 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('/profile',[EmployeeController::class,'viewEmployeeProfile'])->name('/profile');
     Route::post('/updateProfile',[EmployeeController::class,'updateEmployeeName']);
 
+    //Employee Payroll History
+    Route::get('/payroll',[EmployeeController::class,'viewEmployeePayHistory']);
+  
     // Employee Dashboard
     Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');
     Route::post('/clock-in', [AttendanceController::class,'clockIn'])->name('clock.in');

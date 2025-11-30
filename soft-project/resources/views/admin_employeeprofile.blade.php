@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Employee Profile</title>
+@extends('layout.layout')
 
     <style>
         body { margin: 0; font-family: Arial; background: #f2f3f5; }
         .page-wrapper { margin-left: 260px; padding: 30px 40px; }
-        .header-title { font-size: 28px; font-weight: bold; }
-        .header-sub { font-size: 14px; color: #6f6f6f; }
+
 
         .back-btn {
             display: inline-block;
@@ -23,12 +18,6 @@
         .back-btn:hover { background: #ddc7e6; }
 
         .last-updated { float: right; font-size: 14px; color: #888; margin-top: -30px; }
-
-        .profile-card {
-            margin-top: 25px; background: white;
-            border-radius: 20px; padding: 30px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        }
 
         .profile-top {
             display: flex; align-items: center;
@@ -85,11 +74,13 @@
             border-radius: 8px; margin-bottom: 15px;
             color: #2e6b32; font-weight: bold;
         }
+
+        div nav {
+            background: none;
+        }
     </style>
-</head>
 
-<body>
-
+@section('template-content')
 <div class="page-wrapper">
 
     <a href="/admin/employeeoverview" class="back-btn">← Back to Overview</a>
@@ -181,8 +172,63 @@
         </form>
 
     </div>
+
+    <div class="profile-card">
+        <div class="header-title">Attendance</div>
+        <div class="header-sub">View attendance history</div>
+        <table class="employee-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Total Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($attendanceRecords as $record)
+                <tr>
+                    <td>{{ date('F d, Y', strtotime($record->scheduleDate)) }}</td>
+                    <td>{{ $record->clockIN ? date('h:i A', strtotime($record->clockIn)) : '—' }}</td>
+                    <td>{{ $record->clockOut ? date('h:i A', strtotime($record->clockOut)) : '—' }}</td>
+                    <td>{{ $record->totalHours }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div>
+                {{ $attendanceRecords->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <div class="header-title">Payroll</div>
+        <div class="header-sub">View payroll history</div>
+        <table class="employee-table">
+            <thead>
+                <tr>
+                    <th>Pay Period Start</th>
+                    <th>Pay Period End</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($payrolls as $payroll)
+                <tr>
+                    <td>{{ date('F d, Y', strtotime($payroll->payStart)) }}</td>
+                    <td>{{ date('F d, Y', strtotime($payroll->payEnd)) }}</td>
+                    <td>${{ number_format($payroll->payment, 2) }}</td>
+                    <td>{{ $payroll->status }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div>
+                {{ $payrolls->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
 </div>
 
-</body>
-</html>
+@endsection
 

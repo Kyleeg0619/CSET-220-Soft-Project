@@ -1,5 +1,11 @@
 @extends('layout.employee')
 
+<style>
+    div nav {
+            background: none;
+        }
+</style>
+
 @section('content')
 
 <div class="container mt-4">
@@ -76,6 +82,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {{ $attendance->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 </div>
 

@@ -47,7 +47,7 @@
                     <th></th>
                 </tr>
                 @foreach ($employees as $employee)
-                    <tr>
+                    <tr class="record-row">
                         <td>{{ $employee->employeeID }}</td>
                         <td>{{ $employee->lastName }}, {{ $employee->firstName }}</td>
                         <td>{{ $employee->reason }}</td>

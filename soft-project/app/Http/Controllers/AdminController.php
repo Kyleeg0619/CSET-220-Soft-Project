@@ -7,11 +7,14 @@ use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Leaverequest;
+use App\Models\Payroll;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Can;
 
 class AdminController extends Controller
 {
@@ -24,20 +27,27 @@ class AdminController extends Controller
         ->select('leaverequests.*', 'employees.firstName', 'employees.lastName','employees.employeeID')->limit(10)
         ->get();
 
+        // Total Employees
         $totalEmployees = Employee::where('companyID',$admin->companyID)->count();
 
-        $today = date('y-m-d');
+        // Present Employees
+        $today = Carbon::now()->toDateString();
         $presentEmployees = Attendance::where('employees.companyID',$admin->companyID)->where('attendance.scheduleDate',$today)->leftJoin('employees','attendance.employeeID','=','employees.employeeID')->count();
 
-        $today = date('Y-m-d');
-        $presentEmployees = Attendance::where('attendance.scheduleDate', $today)
-            ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
-            ->where('employees.companyID', $admin->companyID)
-            ->count();
-
+        // Absent Employees
         $absentEmployees = $totalEmployees - $presentEmployees;
 
-        return view('admin_dashboard', compact('employees', 'totalEmployees', 'presentEmployees', 'absentEmployees'));
+        // Payroll this month
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $totalPay = DB::table('payroll')
+    ->where('companyID', $admin->companyID)
+    ->whereMonth('payStart', $month)
+    ->whereYear('payStart', $year)
+    ->sum('payment');
+
+
+        return view('admin_dashboard', compact('employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay'));
     }
   
     public function quickApproveRequest($id) {
@@ -54,7 +64,8 @@ class AdminController extends Controller
 
     public function viewCreateEmployee()
     {
-        $departments = Department::where('companyID', session('user')->companyID)->get();
+        $admin = Auth::guard('admin')->user();
+        $departments = Department::where('companyID', $admin->companyID)->get();
         $designations = Designation::all();
 
         return view('create_employee', compact('departments', 'designations'));
@@ -62,6 +73,7 @@ class AdminController extends Controller
 
     public function createEmployee(Request $request)
     {
+        $admin = Auth::guard('admin')->user();
         Employee::create([
             'firstName'     => $request->firstName,
             'lastName'      => $request->lastName,
@@ -69,8 +81,11 @@ class AdminController extends Controller
             'password'      => Hash::make($request->password),
             'departmentID'  => $request->departmentID,
             'designationID' => $request->designationID,
-            'companyID'     => session('user')->companyID,
-            'salary'        => $request->salary
+            'companyID'     => $admin->companyID,
+            'salary'        => 0.00,
+            'employee_type' => $request->employee_type,
+            'salary_type'   => $request->salary_type,
+            'rate'        => $request->rate
         ]);
 
         return redirect('/admin/employeeoverview')->with('success', 'Employee Created Successfully!');
@@ -105,16 +120,19 @@ class AdminController extends Controller
 
     public function viewEditEmployee($id)
     {
+        $admin = Auth::guard('admin')->user();
         $employee = Employee::leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
             ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
             ->select('employees.*', 'departments.departmentName', 'designations.designationName')
             ->where('employeeID', $id)
             ->first();
 
-        $departments = Department::where('companyID', session('user')->companyID)->get();
+        $departments = Department::where('companyID', $admin->companyID)->get();
         $designations = Designation::all();
+        $employmentTypes = ['full-time', 'part-time', 'contractor'];
+        $salaryTypes = ['hourly', 'monthly'];
 
-        return view('admin_editemployee', compact('employee', 'departments', 'designations'));
+        return view('admin_editemployee', compact('employee', 'departments', 'designations','employmentTypes','salaryTypes'));
     }
 
     public function updateEmployee(Request $request, $id)
@@ -125,6 +143,9 @@ class AdminController extends Controller
             'email'         => $request->email,
             'departmentID'  => $request->departmentID,
             'designationID' => $request->designationID,
+            'employee_type' => $request->employee_type,
+            'salary_type'   => $request->salary_type,
+            'rate'          => $request->rate,
             'salary'        => $request->salary
         ]);
 
@@ -139,6 +160,7 @@ class AdminController extends Controller
 
     public function viewEmployeeProfile($id)
     {
+        $admin = Auth::guard('admin')->user();
         $employee = Employee::leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
             ->leftJoin('designations', 'employees.designationID', '=', 'designations.designationID')
             ->select(
@@ -147,17 +169,25 @@ class AdminController extends Controller
                 'designations.designationName'
             )
             ->where('employees.employeeID', $id)
-            ->where('employees.companyID', session('user')->companyID)
+            ->where('employees.companyID', $admin->companyID)
             ->first();
 
         if (!$employee) {
             return redirect('/admin/employeeoverview')->with('error', 'Employee not found');
         }
 
-        $departments = Department::where('companyID', session('user')->companyID)->get();
+        $departments = Department::where('companyID', $admin->companyID)->get();
         $designations = Designation::all();
 
-        return view('admin_employeeprofile', compact('employee', 'departments', 'designations'));
+        $attendanceRecords = Attendance::where('employeeID', $id)
+            ->orderBy('scheduleDate', 'desc')
+            ->paginate(25);
+
+        $payrolls = Payroll::where('employeeID', $id)
+            ->orderBy('payStart', 'desc')
+            ->paginate(25);
+
+        return view('admin_employeeprofile', compact('employee', 'departments', 'designations','attendanceRecords', 'payrolls'));
     }
 
     public function updateEmployeeProfile(Request $request, $id)
@@ -253,5 +283,35 @@ class AdminController extends Controller
         $employees = Employee::where('companyID',$admin->companyID)->get();
 
         return view('payroll',['employees'=>$employees]);
+    }
+
+    public function viewAttendanceRecords() {
+        $admin = Auth::guard('admin')->user();
+
+        $attendanceRecords = Attendance::where('employees.companyID', $admin->companyID)
+            ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
+            ->select('attendance.*', 'employees.firstName', 'employees.lastName','employees.employeeID')
+            ->orderBy('attendance.scheduleDate', 'desc')
+            ->paginate(25);
+
+        return view('admin_attendance', compact('attendanceRecords'));
+    }
+
+    public function filterAttendance(Request $request) {
+        $admin = Auth::guard('admin')->user();
+
+        if ($request->endDate < $request->startDate) {
+            return redirect()->back()->with('error', 'End date must be after start date.');
+        }
+
+        $query = Attendance::where('employees.companyID', $admin->companyID)
+            ->leftJoin('employees', 'attendance.employeeID', '=', 'employees.employeeID')
+            ->select('attendance.*', 'employees.firstName', 'employees.lastName','employees.employeeID');
+
+        
+
+        $attendanceRecords = $query->whereBetween('scheduleDate',[$request->startDate,$request->endDate])->orderBy('attendance.scheduleDate', 'desc')->paginate(25);
+
+        return view('admin_attendance', compact('attendanceRecords'));
     }
 }
