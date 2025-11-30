@@ -12,16 +12,20 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $admin = auth()->guard('admin')->user();
-        $payrolls = Payroll::with('employee')->where('companyID',$admin->companyID)->orderBy('payStart','desc')->orderBy('status','desc')->paginate(50);
+        $payrolls = Payroll::with('employee')->orderBy('payEnd', 'desc')->get();
         return view('admin.payroll.index', compact('payrolls'));
     }
 
     public function generate(Request $request)
     {
-        $admin = auth()->guard('admin')->user();
-        $payStart = $request->input('payStart', Carbon::now()->startOfMonth()->toDateString());
-        $payEnd = $request->input('payEnd', Carbon::now()->endOfMonth()->toDateString());
+        $today = Carbon::today();
+        $recentFriday = $today->isFriday()
+            ? $today
+            : $today->previous(Carbon::FRIDAY);
+
+        $payEnd = $recentFriday->toDateString();
+        $payStart = $recentFriday->copy()->subDays(13)->toDateString();
+
 
         $deductions = $request->input('deductions', []);
         $employees = Employee::where('companyID', $admin->companyID)->get();
@@ -40,15 +44,17 @@ class PayrollController extends Controller
             }
 
             $deduction = $deductions[$emp->employeeID] ?? 0;
+
             $salaryData = $emp->calculateSalary($weeks, $deduction);
+
             Payroll::updateOrCreate(
                 [
                     'employeeID' => $emp->employeeID,
-                    'companyID' => $emp->companyID,
-                    'payStart' => $payStart,
-                    'payEnd' => $payEnd
+                    'payEnd'     => $payEnd,
                 ],
                 [
+                    'companyID'     => $emp->companyID,
+                    'payStart'      => $payStart,
                     'grossPay'      => $salaryData['gross'],
                     'overtimeHours' => $salaryData['overtimeHours'],
                     'deductions'    => $deduction,
@@ -59,7 +65,10 @@ class PayrollController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', 'Payroll generated successfully.');
+        return redirect()->back()->with(
+            'success',
+            "Payroll generated for: $payStart → $payEnd"
+        );
     }
 
     public function markAllProcessed()

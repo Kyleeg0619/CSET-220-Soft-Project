@@ -34,16 +34,12 @@
     }
 </style>
 
-@section('content')
+@section('template-content')
 <h1>Payroll Records</h1>
 
-<form action="{{ route('payroll.generate') }}" method="POST">
+<form action="{{ route('payroll.generate') }}" method="POST" style="margin-bottom: 20px;">
     @csrf
-    <label>Pay Period Start:</label>
-    <input type="date" name="payStart" value="{{ now()->startOfMonth()->toDateString() }}">
-    <label>Pay Period End:</label>
-    <input type="date" name="payEnd" value="{{ now()->endOfMonth()->toDateString() }}">
-    <button type="submit">Generate Payroll</button>
+    <button type="submit" style="padding: 10px 20px; font-size: 16px;">Generate 2-Week Payroll</button>
 </form>
 
 <a href="/admin/payroll/markAllPayroll" class="mark-all-pay">Process All</a>
