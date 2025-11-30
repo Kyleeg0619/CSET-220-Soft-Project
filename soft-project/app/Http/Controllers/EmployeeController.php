@@ -44,7 +44,7 @@ class EmployeeController extends Controller
         $employee = Auth::guard('employee')->user();
         $employee->firstName = $request->input('first_name');
         $employee->lastName = $request->input('last_name');
-        $employee->save();
+        // $employee->save();
         return redirect()->route('/employee/profile')->with('msg', 'Name updated successfully!');
     }
     public function viewEmployeePayHistory(){

@@ -34,13 +34,13 @@
     }
 </style>
 
-@section('template-content')
+@section('content')
 <h1>Payroll Records</h1>
 
-<form action="{{ route('payroll.generate') }}" method="POST" style="margin-bottom: 20px;">
+{{-- <form action="{{ route('payroll.generate') }}" method="POST" style="margin-bottom: 20px;">
     @csrf
     <button type="submit" style="padding: 10px 20px; font-size: 16px;">Generate 2-Week Payroll</button>
-</form>
+</form> --}}
 
 <a href="/admin/payroll/markAllPayroll" class="mark-all-pay">Process All</a>
 
@@ -66,7 +66,9 @@
             <td>${{ number_format($p->deductions, 2) }}</td>
             <td>${{ number_format($p->payment, 2) }}</td>
             <td>{{ $p->status }}</td>
-            <td><a href="{{ url('/admin/payroll/mark/'.$p->payrollID) }}" class="mark-pay">Process</a></td>
+            @if ($p->status != 'Processed')
+                <td><a href="{{ url('/admin/payroll/mark/'.$p->payrollID) }}" class="mark-pay">Process</a></td>
+            @endif
         </tr>
         @endforeach
     </tbody>

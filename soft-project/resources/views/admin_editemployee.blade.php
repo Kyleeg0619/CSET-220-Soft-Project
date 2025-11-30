@@ -107,9 +107,6 @@
                 @endforeach
                 </select>
 
-            <label>Salary ($)</label>
-            <input type="number" name="salary" value="{{ $employee->salary }}" required>
-
             <label>Rate ($)</label>
             <input type="number" name="rate" value="{{ $employee->rate }}" required>
 

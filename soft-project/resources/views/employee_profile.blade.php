@@ -22,7 +22,7 @@
         <div class="profile_holder" style="margin-bottom:10px;border: 1px solid var(--deep-navy);">
             <h4 style="width: 100%;">Employee Profile</h4>
             <div>
-                <div class="profile_pic_section"></div>
+                <img src="{{ $employee->profile_pic }}" alt="" class="profile_pic">
             </div>
             <div class="profile_holder" style="width: auto">
                 <div class="profile_stats_section">
@@ -69,6 +69,12 @@
                         </svg> Edit</div>
                 <form id="changeName" action="/updateProfile" method=POST>
                     @csrf
+                    <label class="upload-btn">
+                    Change Photo
+                    <input type="file" id="imageInput" class="name_changer" name="profile_pic" form="updateForm" accept="image/*" hidden>
+                </label>
+                <span id="filenameDisplay"></span>
+
                     <label for="first_name">First Name: </label>
                     <input class="name_changer" name="first_name" type="text"
                             value="{{$employee->firstName}}">

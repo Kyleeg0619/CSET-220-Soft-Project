@@ -499,6 +499,18 @@ video {
         .header-title { font-size: 28px; font-weight: bold; }
         .header-sub { font-size: 14px; color: #6f6f6f; }
 
+        .upload-btn {
+            background: #e6d6e6;
+            padding: 6px 14px;
+            width: fit-content;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .upload-btn:hover { background: #d4bfd2; }
+
 /* Admin Attendance */
 .attendance-filter {
     display: flex;
@@ -537,8 +549,11 @@ video {
     width: 90%;
     margin: 10px auto;
 }
-.profile_pic_section{
+.profile_pic{
     margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    border-radius:100px;
 }
 
 .profile_picture{

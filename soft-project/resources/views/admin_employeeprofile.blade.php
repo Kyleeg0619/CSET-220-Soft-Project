@@ -47,17 +47,6 @@
 
         .full-row { grid-column: span 2; }
 
-        .upload-btn {
-            background: #e6d6e6;
-            padding: 6px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        .upload-btn:hover { background: #d4bfd2; }
-
         .save-btn {
             margin-top: 35px; background: #1e4cff;
             color: white; padding: 14px 28px;
@@ -99,9 +88,8 @@
 
         <div class="profile-top">
             <div class="profile-pic">
-                <img src="{{ $employee->profilePhoto 
-                    ? asset('employee_photos/' . $employee->profilePhoto)
-                    : asset('images/default-user.png') }}">
+                <img src="{{ $employee->profile_pic 
+            }}" alt="Profile Picture">
             </div>
 
             <div>
@@ -111,8 +99,10 @@
 
                 <label class="upload-btn">
                     Change Photo
-                    <input type="file" name="profilePhoto" form="updateForm" accept="image/*" hidden>
+                    <input type="file" name="profile_pic" id="imageInput" form="updateForm" accept="image/*" hidden>
                 </label>
+
+                <span id="filenameDisplay"></span>
             </div>
         </div>
 
@@ -149,8 +139,8 @@
                 </div>
 
                 <div>
-                    <label>Salary</label>
-                    <input name="salary" value="{{ $employee->salary }}">
+                    <label>Rate</label>
+                    <input name="salary" value="{{ $employee->rate }}" type="number">
                 </div>
 
                 <div class="full-row">
@@ -162,6 +152,23 @@
                                 {{ $des->designationName }}
                             </option>
                         @endforeach
+                    </select>
+                </div>
+
+                <div class="full-row">
+                    <label>Employment Type</label>
+                    <select name="employee_type">
+                        <option value="part-time" {{ $employee->employee_type == 'part-time' ? 'selected' : '' }}>Part-Time</option>
+                        <option value="full-time" {{ $employee->employee_type == 'full-time' ? 'selected' : '' }}>Full-Time</option>
+                        <option value="contract" {{ $employee->employee_type == 'contract' ? 'selected' : '' }}>Contract</option>
+                    </select>
+                </div>
+
+                <div class="full-row">
+                    <label>Salary Type</label>
+                    <select name="salary_type">
+                        <option value="hourly" {{ $employee->salary_type == 'hourly' ? 'selected' : '' }}>Hourly</option>
+                        <option value="monthly" {{ $employee->salary_type == 'monthly' ? 'selected' : '' }}>Monthly/Salary</option>
                     </select>
                 </div>
 

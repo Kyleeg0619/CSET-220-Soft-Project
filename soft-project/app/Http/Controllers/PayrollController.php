@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Payroll;
@@ -12,12 +13,13 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $payrolls = Payroll::with('employee')->orderBy('payEnd', 'desc')->get();
+        $payrolls = Payroll::with('employee')->orderBy('payEnd', 'desc')->paginate(30);
         return view('admin.payroll.index', compact('payrolls'));
     }
 
     public function generate(Request $request)
     {
+        $admin = Auth::guard('admin')->user();
         $today = Carbon::today();
         $recentFriday = $today->isFriday()
             ? $today

@@ -145,8 +145,7 @@ class AdminController extends Controller
             'designationID' => $request->designationID,
             'employee_type' => $request->employee_type,
             'salary_type'   => $request->salary_type,
-            'rate'          => $request->rate,
-            'salary'        => $request->salary
+            'rate'          => $request->rate
         ]);
 
         return redirect('/admin/employeeoverview')->with('success', 'Employee updated successfully!');
@@ -192,7 +191,13 @@ class AdminController extends Controller
 
     public function updateEmployeeProfile(Request $request, $id)
 {
+
     $employee = Employee::findOrFail($id);
+
+    // Handle photo upload
+    if ($request->hasFile('profile_pic')) {
+        $path = $request->file('profile_pic')->store('profile_pics', 'public');
+    }
 
     $data = [
         'firstName'     => $request->firstName,
@@ -200,18 +205,11 @@ class AdminController extends Controller
         'email'         => $request->email,
         'departmentID'  => $request->departmentID,
         'designationID' => $request->designationID,
-        'salary'        => $request->salary
+        'rate'        => $request->rate,
+        'employee_type' => $request->employee_type,
+        'salary_type'   => $request->salary_type,
+        'profile_pic'   => isset($path) ? $path : $employee->profile_pic
     ];
-
-    // Handle photo upload
-    if ($request->hasFile('profilePhoto')) {
-        $file = $request->file('profilePhoto');
-
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('employee_photos'), $filename);
-
-        $data['profilePhoto'] = $filename;
-    }
 
     $employee->update($data);
 

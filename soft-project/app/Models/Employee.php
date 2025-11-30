@@ -9,12 +9,22 @@ class Employee extends Authenticatable
     protected $fillable = [
         'firstName', 'lastName', 'email', 'password',
         'departmentID', 'designationID', 'companyID',
-        'salary', 'employee_type', 'salary_type', 'rate'
+        'salary', 'employee_type', 'salary_type', 'rate','profile_pic'
     ];
 
     public $timestamps = false;
 
     protected $primaryKey = 'employeeID';
+
+public function getProfilePicAttribute($value)
+{
+    if (empty($value)) {
+        return asset('images/user-icon-default.png'); // default image in public/images
+    }
+
+    return asset('storage/' . $value); // uploaded image in storage/app/public
+}
+
 
     public function calculateSalary(array $weeks, float $deduction = 0): array
     {

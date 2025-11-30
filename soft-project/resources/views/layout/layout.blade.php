@@ -103,6 +103,15 @@
     });
 }
 
+document.getElementById('imageInput').addEventListener('change', function() {
+  const filenameDisplay = document.getElementById('filenameDisplay');
+  if (this.files && this.files.length > 0) {
+    filenameDisplay.textContent = this.files[0].name;
+  } else {
+    filenameDisplay.textContent = ''; // Clear if no file selected
+  }
+});
+
 showMenu();</script>
 </body>
 </html>
