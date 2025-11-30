@@ -21,7 +21,7 @@ class AttendanceController extends Controller
 
         $attendance = Attendance::where('employeeID', $employee->employeeID)
                                 ->orderBy('scheduleDate', 'desc')
-                                ->get();
+                                ->paginate(30);
         return view('attendance', compact('attendance'));
     }
 
