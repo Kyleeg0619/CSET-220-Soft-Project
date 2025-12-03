@@ -39,6 +39,12 @@
         <hr class="nav-spacer">
         <a href="/employee/profile">Profile</a>
         <hr class="nav-spacer">
+        <a href="/employee/attendance">Attendance</a>
+        <hr class="nav-spacer">
+        <a href="/employee/leave/history">Leave Management</a>
+        <hr class="nav-spacer">
+        <a href="/employee/payroll">Payroll</a>
+        <hr class="nav-spacer">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Logout</button>
@@ -48,8 +54,6 @@
         <a href="/home">Home</a>
         <hr class="nav-spacer">
         <a href="/login">Login</a>
-        <hr class="nav-spacer">
-        <a href="/about">About</a>
     @endif
     </div>
 
@@ -85,11 +89,16 @@
         </section>
         <section class="footer-links">
         <h2 style="margin-bottom: 0">Links</h2>
-        <a href="/home">Home</a>
+        <a href="/">Home</a>
         <hr class="nav-spacer">
         <a href="/login">Login</a>
+        @if (Auth::check())
         <hr class="nav-spacer">
-        <a href="/about">About</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
+        @endif
         </section>
     </footer>
 
@@ -103,6 +112,9 @@
     });
 }
 
+showMenu();
+
+// Image Input Display Script
 document.getElementById('imageInput').addEventListener('change', function() {
   const filenameDisplay = document.getElementById('filenameDisplay');
   if (this.files && this.files.length > 0) {
@@ -111,7 +123,6 @@ document.getElementById('imageInput').addEventListener('change', function() {
     filenameDisplay.textContent = ''; // Clear if no file selected
   }
 });
-
-showMenu();</script>
+</script>
 </body>
 </html>

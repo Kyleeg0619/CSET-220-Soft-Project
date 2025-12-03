@@ -24,6 +24,7 @@
             <div>
                 <img src="{{ $employee->profile_pic }}" alt="" class="profile_pic">
             </div>
+            
             <div class="profile_holder" style="width: auto">
                 <div class="profile_stats_section">
                     <div style="width:100%">
@@ -52,7 +53,11 @@
                         <div>
                             Employee ID #: {{$employee->employeeID}}
                         </div>
+                        
                 </div>
+                                        <div class="monthly_salary">
+                            Monthly Salary<br>${{ $employee->salary }}
+                        </div>
             </div>
         </div>
             <div class="profile_holder" style="margin-bottom:10px;border: 1px solid var(--deep-navy);">
@@ -67,13 +72,16 @@
                             <path fill-rule="evenodd"
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                         </svg> Edit</div>
-                <form id="changeName" action="/updateProfile" method=POST>
+                <form id="changeName" action="/employee/updateProfile" method=POST>
                     @csrf
                     <label class="upload-btn">
                     Change Photo
                     <input type="file" id="imageInput" class="name_changer" name="profile_pic" form="updateForm" accept="image/*" hidden>
                 </label>
                 <span id="filenameDisplay"></span>
+
+                <br>
+                <br>
 
                     <label for="first_name">First Name: </label>
                     <input class="name_changer" name="first_name" type="text"
@@ -82,6 +90,12 @@
                     <label for="last_name">Last Name: </label>
                     <input class="name_changer" name="last_name" type="text"
                             value="{{$employee->lastName}}">
+                            <br>
+                    <label for="email">Email: </label>
+                    <input type="text" name="email" class="name_changer" value="{{ $employee->email }}">
+                            <br>
+                    <label for="password">Password: </label>
+                    <input type="text" name="password" class="name_changer" placeholder="*********">
                             <br>
                     <button class="approve" type="submit"
                         form="changeName" style="align-self: flex-end">Save Changes</button>

@@ -3,9 +3,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PayrollController;
+
+Route::get('/sample', function () {
+    return view('sample');
+});
 
 // Landing Page Links
 Route::get('/about',[EmployeeController::class,'viewAbout']);
@@ -68,6 +72,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     //Employee Payroll History
     Route::get('/payroll',[EmployeeController::class,'viewEmployeePayHistory']);
+    Route::get('/payroll/export/{payrollID}',[EmployeeController::class,'exportPayslipPDF']);
   
     // Employee Dashboard
     Route::get('/attendance', [AttendanceController::class,'dashboard'])->name('attendance');
