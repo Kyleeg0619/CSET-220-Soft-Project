@@ -45,9 +45,12 @@ class PayrollController extends Controller
                 $weeks[$weekKey] += floatval($att->totalHours);
             }
 
-            $deduction = $deductions[$emp->employeeID] ?? 0;
-
-            $salaryData = $emp->calculateSalary($weeks, $deduction);
+            // Calculate gross first, then apply 4% deduction of gross, adjust payment accordingly
+            $salaryDataGross = $emp->calculateSalary($weeks, 0);
+            $gross = $salaryDataGross['gross'] ?? 0;
+            $overtime = $salaryDataGross['overtimeHours'] ?? 0;
+            $deduction = round($gross * 0.04, 2);
+            $payment = max($gross - $deduction, 0);
 
             Payroll::updateOrCreate(
                 [
@@ -57,20 +60,15 @@ class PayrollController extends Controller
                 [
                     'companyID'     => $emp->companyID,
                     'payStart'      => $payStart,
-                    'grossPay'      => $salaryData['gross'],
-                    'overtimeHours' => $salaryData['overtimeHours'],
+                    'grossPay'      => $gross,
+                    'overtimeHours' => $overtime,
                     'deductions'    => $deduction,
-                    'payment'       => $salaryData['payment'],
+                    'payment'       => $payment,
                     'status'        => 'Unprocessed',
                     'notes'         => ''
                 ]
             );
         }
-
-        return redirect()->back()->with(
-            'success',
-            "Payroll generated for: $payStart → $payEnd"
-        );
     }
 
     public function markAllProcessed()
