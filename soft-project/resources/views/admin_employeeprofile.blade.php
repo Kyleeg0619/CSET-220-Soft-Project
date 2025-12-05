@@ -88,7 +88,7 @@
 
         <div class="profile-top">
             <div class="profile-pic">
-                <img src="{{ $employee->profile_pic 
+                <img src="{{  asset("profile_images/".$employee->profile_pic)
             }}" alt="Profile Picture">
             </div>
 

@@ -42,15 +42,39 @@ class EmployeeController extends Controller
     }
 
     public function updateEmployeeName(Request $request){
-        $employee = Auth::guard('employee')->user();
-        Employee::where('employeeID', $employee->employeeID)->update([
+        $employeeInfo = Auth::guard('employee')->user();
+        $employee = Employee::findOrFail($employeeInfo->employeeID);
+
+        // Basic validation
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        $data = [
             'firstName' => $request->input('first_name'),
             'lastName' => $request->input('last_name'),
-            'email' => $request->email,
-            'password' => $request->password != null ? Hash::make($request->password) : $employee->password,
-        ]);
-        return redirect()->route('/profile')->with('msg', 'Info updated successfully!');
+            'email' => $request->input('email'),
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        // Handle photo upload
+        if ($request->hasFile('profile_pic')) {
+            $imageName = time().'.'.$request->profile_pic->extension();
+            $request->profile_pic->move(public_path('profile_images'), $imageName);
+            $data['profile_pic'] = $imageName;
+        }
+
+        $employee->update($data);
+
+        return redirect('/employee/profile')->with('msg', 'Info updated successfully!');
     }
+    
     public function viewEmployeePayHistory(){
           $employee = Auth::guard('employee')->user();
           $history=Payroll::where('employeeID',$employee->employeeID)->paginate(30);

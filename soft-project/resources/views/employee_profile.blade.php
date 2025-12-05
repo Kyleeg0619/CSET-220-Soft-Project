@@ -22,7 +22,8 @@
         <div class="profile_holder" style="margin-bottom:10px;border: 1px solid var(--deep-navy);">
             <h4 style="width: 100%;">Employee Profile</h4>
             <div>
-                <img src="{{ $employee->profile_pic }}" alt="" class="profile_pic">
+                <img src="{{  asset("profile_images/".$employee->profile_pic)
+            }}" alt="Profile Picture" class="profile_pic">
             </div>
             
             <div class="profile_holder" style="width: auto">
@@ -72,12 +73,14 @@
                             <path fill-rule="evenodd"
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                         </svg> Edit</div>
-                <form id="changeName" action="/employee/updateProfile" method=POST>
+                <form id="changeName" action="/employee/updateProfile" method="POST" enctype="multipart/form-data">
                     @csrf
+
                     <label class="upload-btn">
                     Change Photo
-                    <input type="file" id="imageInput" class="name_changer" name="profile_pic" form="updateForm" accept="image/*" hidden>
+                    <input type="file" id="imageInput" class="name_changer" name="profile_pic" accept="image/*" hidden>
                 </label>
+                
                 <span id="filenameDisplay"></span>
 
                 <br>

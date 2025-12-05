@@ -194,11 +194,6 @@ class AdminController extends Controller
 
     $employee = Employee::findOrFail($id);
 
-    // Handle photo upload
-    if ($request->hasFile('profile_pic')) {
-        $path = $request->file('profile_pic')->store('profile_pics', 'public');
-    }
-
     $data = [
         'firstName'     => $request->firstName,
         'lastName'      => $request->lastName,
@@ -208,8 +203,14 @@ class AdminController extends Controller
         'rate'        => $request->rate,
         'employee_type' => $request->employee_type,
         'salary_type'   => $request->salary_type,
-        'profile_pic'   => isset($path) ? $path : $employee->profile_pic
     ];
+
+    // Handle photo upload
+    if ($request->hasFile('profile_pic')) {
+        $imageName = time().'.'.$request->profile_pic->extension();
+        $request->profile_pic->move(public_path('profile_images'), $imageName);
+        $data['profile_pic'] = $imageName;
+    }
 
     $employee->update($data);
 

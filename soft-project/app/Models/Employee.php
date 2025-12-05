@@ -16,15 +16,6 @@ class Employee extends Authenticatable
 
     protected $primaryKey = 'employeeID';
 
-public function getProfilePicAttribute($value)
-{
-    if (empty($value)) {
-        return asset('images/user-icon-default.png'); // default image in public/images
-    }
-
-    return asset('storage/' . $value); // uploaded image in storage/app/public
-}
-
 
     public function calculateSalary(array $weeks, float $deduction = 0): array
     {
