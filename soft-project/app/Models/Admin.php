@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable
 {
     protected $primaryKey = 'adminID';
+    public $timestamps = false;
     protected $fillable = [
         'firstName',
         'lastName',
@@ -17,6 +18,7 @@ class Admin extends Authenticatable
         'departmentID',
         'designationID',
         'companyID',
-        'salary'
+        'salary',
+        'profile_pic'
     ];
 }

@@ -7,6 +7,7 @@
 </style>
 
 @section('content')
+<h3>Welcome back, {{ $admin->firstName.' '.$admin->lastName }}</h3>
             <div class="stats">
                 <div class="stat-card">
                     <p>Total Employees</p>

@@ -6,6 +6,7 @@
                 <h1>Dashboard</h1>
             </a>
             <hr class="nav-spacer" style="border-color: var(--periwinkle);border-width:2.5px;margin-bottom:10px;">
+            <a href="/admin/profile" class="dashboard-links"><h3>Profile</h3></a>
             <a href="/admin/employeeoverview" class="dashboard-links"><h3>Employees</h3></a>
             <a href="/admin/attendance" class="dashboard-links"><h3>Attendance</h3></a>
             <a href="/admin/leaverequests" class="dashboard-links"><h3>Leave Requests</h3></a>

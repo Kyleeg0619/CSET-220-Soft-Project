@@ -1,11 +1,24 @@
 @extends('layout.layout')
 @section('template-content')
+<style>
+    .login {
+        background: var(--deep-navy);
+        color: var(--periwinkle);
+        padding: 8px 13px;
+        border-radius: 50px;
+        text-decoration: none;
+        margin: 5px;
+        border: none;
+    }
+</style>
+
     <section class="home">
         <div class="banner">
             <div class="banner-content">
                 <div class="banner-text">
                     <h1>Put Workforce Understanding to Work with Smart HR</h1>
                     <p>Smart HR is the workforce operating platform that empowers your front line and connects your front office. With powerful technology and actionable insights, it helps you solve challenges in any moment—across every industry.</p>
+                    <a href="/login" class="login" style="margin: 10px auto">Login</a>
                 </div>
                 <video autoplay muted loop>
                     <source src="{{ asset('images/banner-bg.mp4') }}">
@@ -24,7 +37,6 @@
         <div style="text-align: left">
             <h4>Get Started</h4>
             <p>Our Smart HR System provides a simple, yet effective method for managing companies! Add, edit, and fire employees with ease! Approve requests for time off, check your company's employee-related statistics, and raise your employees' wages, all with a few simple clicks. Allow your employees to clock in and out in but a moment with our intuitive design.</p>
-            <a href="/login" class="approve" style="margin: 10px auto">Login</a>
         </div>
     </div>
     <div class="home_section graphic-section">

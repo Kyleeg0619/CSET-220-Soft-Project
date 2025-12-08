@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\Designation;
@@ -47,7 +48,7 @@ class AdminController extends Controller
     ->sum('payment');
 
 
-        return view('admin_dashboard', compact('employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay'));
+        return view('admin_dashboard', compact('admin','employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay'));
     }
   
     public function quickApproveRequest($id) {
@@ -312,5 +313,46 @@ class AdminController extends Controller
         $attendanceRecords = $query->whereBetween('scheduleDate',[$request->startDate,$request->endDate])->orderBy('attendance.scheduleDate', 'desc')->paginate(25);
 
         return view('admin_attendance', compact('attendanceRecords'));
+    }
+
+    // Admin Profile
+    public function viewAdminProfile() {
+        $adminInfo = Auth::guard('admin')->user();
+        $admin = Admin::leftJoin('departments','admins.departmentID','=','departments.departmentID')->leftJoin('designations','admins.designationID','=','designations.designationID')->leftJoin('companies','admins.companyID','=','companies.companyID')->select('admins.*','designations.designationName','departments.departmentName','companies.companyName')->where('admins.adminID', $adminInfo->adminID)->first();
+        return view('admin_profile', compact('admin'));
+    }
+
+    public function updateAdminProfile(Request $request) {
+        $adminInfo = Auth::guard('admin')->user();
+        $admin = Admin::findOrFail($adminInfo->adminID);
+
+        // Basic validation
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        $data = [
+            'firstName' => $request->input('first_name'),
+            'lastName' => $request->input('last_name'),
+            'email' => $request->input('email'),
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        // Handle photo upload
+        if ($request->hasFile('profile_pic')) {
+            $imageName = time().'.'.$request->profile_pic->extension();
+            $request->profile_pic->move(public_path('profile_images'), $imageName);
+            $data['profile_pic'] = $imageName;
+        }
+
+        $admin->update($data);
+
+        return redirect('/admin/profile')->with('msg', 'Info updated successfully!');
     }
 }

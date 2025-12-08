@@ -26,6 +26,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/dashboard',[AdminController::class,'viewAdminDashboard'])->name('admin/dashboard');
     Route::get('/quickApproveRequest/{requestID}',[AdminController::class,'quickApproveRequest'])->name('quickApproveRequest');
     Route::get('/quickDeniedRequest/{requestID}',[AdminController::class,'quickDenyRequest'])->name('quickDenyRequest');
+
+    // Profile
+    Route::get('/profile',[AdminController::class,'viewAdminProfile'])->name('admin/profile');
+    Route::post('/updateProfile',[AdminController::class,'updateAdminProfile'])->name('admin/profile.update');
   
     // Attendance Records
     Route::get('/attendance', [AdminController::class, 'viewAttendanceRecords'])->name('admin.attendance');

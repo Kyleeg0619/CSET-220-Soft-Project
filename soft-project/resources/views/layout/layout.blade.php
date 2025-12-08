@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://use.typekit.net/amw7ext.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{{ asset('images/brain-icon.png') }}" type="image/x-icon">
 </head>
 <body>
     {{-- Navigation --}}
@@ -23,6 +24,8 @@
     <div class="nav-links">
     @if (Auth::guard('admin')->user())
         <a href="/admin/dashboard">Dashboard</a>
+        <hr class="nav-spacer">
+        <a href="/admin/profile">Profile</a>
         <hr class="nav-spacer">
         <a href="/admin/employees">Employees</a>
         <hr class="nav-spacer">
