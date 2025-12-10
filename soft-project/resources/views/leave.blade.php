@@ -65,7 +65,7 @@
             <div>
                 {{ $employees->links('pagination::bootstrap-5') }}
             </div>
-            <form action="/searchLeave" method="POST" class="search-leave">
+            <form action="/admin/searchLeave" method="POST" class="search-leave">
                     @csrf
                     <input type="text" name="search" placeholder="Name..." class="search-input">
                     <button type="submit" class="search-submit">Search</button>

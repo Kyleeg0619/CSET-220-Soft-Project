@@ -22,23 +22,40 @@ class Employee extends Authenticatable
         $gross = 0;
         $overtimeHours = 0;
 
-        if ($this->salary_type === 'hourly') {
+        // Validate rate exists and is numeric
+        $rate = floatval($this->rate ?? 0);
+        if ($rate < 0) {
+            $rate = 0;
+        }
+
+        // Determine salary type (default to hourly if not set)
+        $salaryType = strtolower($this->salary_type ?? 'hourly');
+
+        if ($salaryType === 'hourly') {
             foreach ($weeks as $weekHours) {
+                $weekHours = floatval($weekHours);
                 if ($weekHours > 40) {
-                    $gross += 40 * $this->rate;
-                    $gross += ($weekHours - 40) * $this->rate * 1.5;
+                    $gross += 40 * $rate;
+                    $gross += ($weekHours - 40) * $rate * 1.5;
                     $overtimeHours += ($weekHours - 40);
                 } else {
-                    $gross += $weekHours * $this->rate;
+                    $gross += $weekHours * $rate;
                 }
             }
         } else {
-            $gross = $this->rate ?: 0;
+            // Salaried/monthly: rate is the monthly salary
+            $gross = $rate;
         }
+
+        // Ensure all monetary values are rounded to 2 decimals
+        $gross = round($gross, 2);
+        $deduction = round($deduction, 2);
+        $payment = max(round($gross - $deduction, 2), 0);
+        $overtimeHours = round($overtimeHours, 2);
 
         return [
             'gross'         => $gross,
-            'payment'       => max($gross - $deduction, 0),
+            'payment'       => $payment,
             'overtimeHours' => $overtimeHours
         ];
     }

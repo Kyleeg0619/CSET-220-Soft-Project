@@ -13,7 +13,8 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $payrolls = Payroll::with('employee')->orderBy('payEnd', 'desc')->paginate(30);
+        $admin = Auth::guard('admin')->user();
+        $payrolls = Payroll::with('employee')->where('companyID','=',$admin->companyID)->orderBy('payEnd', 'desc')->paginate(30);
         return view('admin.payroll.index', compact('payrolls'));
     }
 

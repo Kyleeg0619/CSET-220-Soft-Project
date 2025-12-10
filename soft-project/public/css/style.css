@@ -652,4 +652,23 @@ video {
 .employee-content {
     padding: 25px;
     position: relative;
-}   
+} 
+
+/* MOBILE VIEWPORT */
+@media (max-width: 768px) {
+    .banner-content {
+        grid-template-columns: 1fr;
+    }
+
+    .banner-content video, .banner-text {
+        padding: 0 5%;
+    }
+
+    .admin-ui, .employee-ui {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-nav, .employee-nav {
+        display: none;
+    }
+}

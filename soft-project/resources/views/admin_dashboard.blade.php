@@ -4,6 +4,26 @@
     p {
         margin-bottom: 0;
     }
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: flex-start;/* align tops instead of centers if you want */
+    margin: 15px 0;
+    width: 100%;
+}
+
+.chart-container {
+    flex: 1;           
+    min-width: 0;
+    height: 500px;
+    border-radius: 20px;
+    border: 1px solid var(--deep-navy);
+    padding: 10px 10px 40px 10px;
+    margin: 25px 0;
+    text-align: center;
+}
 </style>
 
 @section('content')
@@ -44,6 +64,18 @@
                     <p>${{ $totalPay }}</p>
                 </div>
             </div>
+
+            <div class="charts">
+                <div class="chart-container">
+                    <h4>Employee Attendance in Last Month</h4>
+                    <canvas id="attendanceStats"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Department Distribution</h4>
+                    <canvas id="departmentStats"></canvas>
+                </div>
+            </div>
+
             <table class="leave-block">
                 <tr>
                     <td colspan="8">
@@ -85,3 +117,88 @@
             </table>
 
 @endsection
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('attendanceStats').getContext('2d');
+    const attendanceStats = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($dateArray) !!},
+            datasets: [{
+                label: 'Employees Present',
+                data: {!! json_encode($presentArray) !!},
+                fill: false,
+                borderColor: [
+                    'rgba(54, 162, 235, 1)'
+                ],
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        callback: function(value, index, ticks) {
+                            if (index === 0 || index === ticks.length - 1) {
+                                return this.getLabelForValue(value);
+                            }
+                            return '';
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    precision:0
+                }
+            }
+        }
+    });
+
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const deptCtx = document.getElementById('departmentStats').getContext('2d');
+    const departmentStats = new Chart(deptCtx, {
+        type: 'pie',
+        data: {
+            labels: {!! json_encode($departmentNames) !!},
+            datasets: [{
+                label: 'Employees by Department',
+                data: {!! json_encode($departmentCounts) !!},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 159, 64, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 255, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Employees by Department'
+                }
+            }
+        }
+    });
+});
+</script>

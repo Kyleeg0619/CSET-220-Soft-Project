@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Models\Leaverequest;
 use App\Models\Payroll;
 use Carbon\Carbon;
+use Carbon\Traits\ToStringFormat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -47,8 +48,42 @@ class AdminController extends Controller
     ->whereYear('payStart', $year)
     ->sum('payment');
 
+        // Generate attendance stats for chart
+        $dateArray = [];
+        $presentArray = [];
+        $now = Carbon::now();
+        // Formatted Current Date
+        $currentDate = $now->format('Y-m-d');
+        $MinusMonth = $now->copy()->subMonth();
+        // Formatted Date One Month Ago
+        $nowMinusMonthDate = $MinusMonth->format('Y-m-d');
 
-        return view('admin_dashboard', compact('admin','employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay'));
+        // Call Procedure to get attendance stats
+        $attendanceStats = DB::select('CALL GetAttendanceRange(?,?)',[$nowMinusMonthDate,$currentDate]);
+
+        foreach ($attendanceStats as $stat) {
+            $dateArray[] = $stat->scheduleDate;
+            $presentArray[] = $stat->present;
+        }
+
+        // Generate department stats for chart
+        $departmentNames = [];
+        $departmentCounts = [];
+        $departmentStats = Employee::select(
+                'departments.departmentName',
+                DB::raw('COUNT(*) as employeeCount')
+            )
+            ->leftJoin('departments', 'employees.departmentID', '=', 'departments.departmentID')
+            ->where('employees.companyID', $admin->companyID)
+            ->groupBy('departments.departmentName', 'employees.departmentID')
+            ->get();
+
+        foreach ($departmentStats as $dept) {
+            $departmentNames[] = $dept->departmentName;
+            $departmentCounts[] = $dept->employeeCount;
+        }
+
+        return view('admin_dashboard', compact('admin','employees', 'totalEmployees', 'presentEmployees', 'absentEmployees', 'totalPay', 'dateArray', 'presentArray','departmentNames','departmentCounts'));
     }
   
     public function quickApproveRequest($id) {
