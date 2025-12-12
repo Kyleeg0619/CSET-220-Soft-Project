@@ -1,4 +1,15 @@
 @extends('layout.layout')
+
+<style>
+    .showCheck {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 10px;
+        width: fit-content;
+    }
+</style>
+
 @section('template-content')
 
     <section>
@@ -15,7 +26,8 @@
             <label for="email">Email: </label>
             <input type="text" name="email">
             <label for="">Password: </label>
-            <input type="text" name="password">
+            <input type="password" name="password" id="passwordInput">
+            <div class="showCheck"><input type="checkbox" onclick="myFunction()"><p>Show Password</p></div>
             @if(session('warning'))
             <p class="warning">{{ session('warning') }}</p>
             @endif
@@ -28,3 +40,14 @@
     </section>
 
 @endsection
+
+<script>
+    function myFunction() {
+  var x = document.getElementById("passwordInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
